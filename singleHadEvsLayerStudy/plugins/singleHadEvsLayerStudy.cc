@@ -428,9 +428,9 @@ singleHadEvsLayerStudy::singleHadEvsLayerStudy(const edm::ParameterSet& iConfig)
    hists_["EE_PFRecHit_z"]=fs->make<TH1D>("EE_PFRecHit_z","Z position of rechits in HGCEE in centimeters",150,300.,360.);  //this histo is made to show the Z distance between each Si layer in HGCEE
    hists_["HEF_PFRecHit_z"]=fs->make<TH1D>("HEF_PFRecHit_z","Z position of rechits in HGCHEF in centimeters",100,350.,460.);  //this histo is made to show the Z distance between each Si layer in HGCHEF
    hists_["HEB_PFRecHit_z"]=fs->make<TH1D>("HEB_PFRecHit_z","Z position of rechits in HGCHEB in centimeters",100,400.,600.);  //this histo is made to show the Z distance between each scintillator layer in HGCHEB
-
-   hists_["All_PFRecHit_z"]=fs->make<TH1D>("All_PFRecHit_z","Z position of all HGC PFRecHits ; distance from IP (cm);",500,310.,560.);  //this histo is made to show the Z distance between each sensitive layer of HGC (Si or scintillator) 
    */
+
+   //hists_["All_PFRecHit_z"]=fs->make<TH1D>("All_PFRecHit_z","Z position of all HGC PFRecHits ; distance from IP (cm);",500,310.,560.);  //this histo is made to show the Z distance between each sensitive layer of HGC (Si or scintillator) 
 
 
 
@@ -663,18 +663,23 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    //factors to convert rechit energy in GeV to a number of MIPs
-   double GeVToMIPs_EE = (1/0.000055);
-   double GeVToMIPs_HEF = (1/0.000085);
-   double GeVToMIPs_HEB = (1/0.001498);
+   //double GeVToMIPs_EE = (1/0.000055);
+   //double GeVToMIPs_HEF = (1/0.000085);
+   //double GeVToMIPs_HEB = (1/0.001498);
 
-   double HGCLayerBoundaries[63] = {317.5,318.5,319.5,320.,321,322,323,324,324.5,325.5,326.5,327.5,328.5,329.5,330.5,332,333,334,335,336,337,338.5,339.5,341,342,343.5,345,346,347.5,348.5,350,361,367,373,378.5,384.5,390.5,396.5,402.5,408.5,414.5,420,426,441,445,449.5,454,458,462.5,467,471.5,475.5,480,484.5,488.5,493,497.5,501.5,506,510.5,515,519,523.5};    //approximate distance in cm between IP and edge of a sensitive layer furthest from IP 
+   double GeVToMIPs_EE = 1; 
+   double GeVToMIPs_HEF = 1;
+   double GeVToMIPs_HEB = 1;
+
+
+   double HGCLayerBoundaries[] = {320.5,321.5,322.5,323.5,324,325,325.5,326.5,327.5,328.5,329,330,331,332,333,334,334.5,336,336.5,337.5,338.5,339.5,340.5,342,343,344,345.5,346.5,347.5,348.5,355,360,364.5,369.5,374,379,384,388.5,393.5,398,403,408,421.5,426,430.5,434.5,439,443.5,445,447.5,452,456.5,461,465,469.5,474,478,482.5,487,491,495.5,500,504.5,508.5,513,517.5,521.5};    //approximate distance in cm between IP and face of each sensitive layer which is furthest from IP 
    
-   double HGCLambdaBoundaries[63] = {0.0193,0.05,0.08,0.12,0.15,0.18,0.21,0.24,0.28,0.31,0.34,0.38,0.42,0.47,0.51,0.55,0.59,0.63,0.67,0.72,0.76,0.81,0.87,0.92,0.97,1.03,1.08,1.14,1.19,1.24,1.3,1.91,2.22,2.52,2.83,3.14,3.45,3.76,4.07,4.37,4.68,4.99,5.3,5.56,5.84,6.12,6.4,6.68,6.96,7.23,7.51,7.79,8.07,8.35,8.63,8.9,9.18,9.46,9.74,10.02,10.3,10.57,10.85};       //amount of material in front of every sensitive layer of HGC in terms of hadronic interaction lengths 
+   double HGCLambdaBoundaries[54] = {0.01,0.06,0.1,0.12,0.16,0.18,0.22,0.24,0.28,0.3,0.34,0.37,0.42,0.47,0.5,0.53,0.58,0.61,0.66,0.69,0.74,0.79,0.85,0.9,0.96,1.01,1.07,1.12,1.18,1.23,1.57,1.82,2.07,2.32,2.57,2.82,3.07,3.32,3.57,3.82,4.07,4.32,4.53,4.74,4.95,5.16,5.37,5.58,5.79,6,6.21,6.42,6.63,6.84};       //amount of material in front of every sensitive layer of HGC in terms of hadronic interaction lengths 
    double totalCaloRecHitEnergy = 0.0;
    std::vector<double> caloRecHitEnergyVsLayer;
    std::vector<double> energyFrxnVsLayer;
    //std::cout<<"about to initialize caloRecHitEnergyVsLayer and energyFrxnVsLayer"<<std::endl;
-   for(unsigned int i=0; i<63 ; i++){
+   for(unsigned int i=0; i<54 ; i++){
 	   caloRecHitEnergyVsLayer.push_back(0.0);
 	   energyFrxnVsLayer.push_back(0.0);
    }
@@ -687,11 +692,11 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   //now get the PFRecHitFraction objects associated with the PFCluster
 	   const std::vector<reco::PFRecHitFraction> EEPFRecHitFractions = clstEE->recHitFractions();
 	   for(unsigned int i=0; i< EEPFRecHitFractions.size() ; i++){
-		   //loop over PFRecHitFraction objects associated with the PFCluster, and add PFRecHit energy to 63 element array of floats and totalCaloRecHitEnergy var
+		   //loop over PFRecHitFraction objects associated with the PFCluster, and add PFRecHit energy to 54 element array of floats and totalCaloRecHitEnergy var
 		   totalCaloRecHitEnergy += ( ( EEPFRecHitFractions[i].fraction() )*(EEPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_EE) );
-		   for(unsigned int k=0; k< 63; k++){
+		   for(unsigned int k=0; k< 54; k++){
 			   if( ((EEPFRecHitFractions[i].recHitRef())->position()).Z() <= HGCLayerBoundaries[k] ){
-				   //look at layer 0, then work way up towards layer 62
+				   //look at layer 0, then work way up towards layer 54
 				   caloRecHitEnergyVsLayer[k] += ( ( EEPFRecHitFractions[i].fraction() )*(EEPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_EE) );
 				   break;
 			   }
@@ -711,11 +716,11 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   //now get the PFRecHitFraction objects associated with the PFCluster
 	   const std::vector<reco::PFRecHitFraction> HEFPFRecHitFractions = clstHEF->recHitFractions();
 	   for(unsigned int i=0; i< HEFPFRecHitFractions.size() ; i++){
-		   //loop over PFRecHitFraction objects associated with the PFCluster, and add PFRecHit energy to 63 element array of floats and totalCaloRecHitEnergy var
+		   //loop over PFRecHitFraction objects associated with the PFCluster, and add PFRecHit energy to 54 element array of floats and totalCaloRecHitEnergy var
 		   totalCaloRecHitEnergy += ( ( HEFPFRecHitFractions[i].fraction() )*(HEFPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_HEF) );
-		   for(unsigned int k=0; k< 63; k++){
+		   for(unsigned int k=0; k< 54; k++){
 			   if( ((HEFPFRecHitFractions[i].recHitRef())->position()).Z() <= HGCLayerBoundaries[k] ){
-				   //look at layer 0, then work way up towards layer 62
+				   //look at layer 0, then work way up towards layer 54
 				   caloRecHitEnergyVsLayer[k] += ( ( HEFPFRecHitFractions[i].fraction() )*(HEFPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_HEF) );
 				   break;
 			   }
@@ -733,11 +738,11 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   //now get the PFRecHitFraction objects associated with the PFCluster
 	   const std::vector<reco::PFRecHitFraction> HEBPFRecHitFractions = clstHEB->recHitFractions();
 	   for(unsigned int i=0; i< HEBPFRecHitFractions.size() ; i++){
-		   //loop over PFRecHitFraction objects associated with the PFCluster, and add PFRecHit energy to 63 element array of floats and totalCaloRecHitEnergy var
+		   //loop over PFRecHitFraction objects associated with the PFCluster, and add PFRecHit energy to 54 element array of floats and totalCaloRecHitEnergy var
 		   totalCaloRecHitEnergy += ( ( HEBPFRecHitFractions[i].fraction() )*(HEBPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_HEB) );
-		   for(unsigned int k=0; k< 63; k++){
+		   for(unsigned int k=0; k< 54; k++){
 			   if( ((HEBPFRecHitFractions[i].recHitRef())->position()).Z() <= HGCLayerBoundaries[k] ){
-				   //look at layer 0, then work way up towards layer 62
+				   //look at layer 0, then work way up towards layer 54
 				   caloRecHitEnergyVsLayer[k] += ( ( HEBPFRecHitFractions[i].fraction() )*(HEBPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_HEB) );
 				   break;
 			   }
@@ -749,13 +754,13 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
    //std::cout<<"finished loop over HEB PFClusters that fills caloRecHitEnergyVsLayer"<<std::endl;
 
-   for(int i=0; i<63; i++){
+   for(int i=0; i<54; i++){
 	   //fill energyFrxnVsLayer vector 
 	   energyFrxnVsLayer[i] += (caloRecHitEnergyVsLayer[i]/totalCaloRecHitEnergy);
 	   //std::cout<<"energyFrxnVsLayer element # "<<i<<" contains "<<energyFrxnVsLayer[i]<<std::endl;
    }
 
-   while(finalEnergyFrxns.size() < 63){
+   while(finalEnergyFrxns.size() < 54){
 	   finalEnergyFrxns.push_back(0.0);
 	   finalEnergyFrxnBinNums.push_back(0.0); 
    }
@@ -771,7 +776,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    
    if(allEmpty){
 	   //if EnergyFrxnVsLambda is empty, then set the bin contents equal to energyFrxnVsLayer
-	   for(int j=0;j<63;j++){ //loop over entries of HGCLambdaBoundaries
+	   for(int j=0;j<54;j++){ //loop over entries of HGCLambdaBoundaries
 		   
 		   for(int i=1;i<=getXBins("EnergyFrxnVsLambda"); i++){
 
@@ -792,7 +797,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    }
 
    if(!allEmpty){
-	   for(int j=0; j<63;j++){
+	   for(int j=0; j<54;j++){
 		   //loop over all elements of finalEnergyFrxns[]
 		   for(int i=1; i<=getXBins("EnergyFrxnVsLambda");i++){
 			   //loop over all bins of EnergyFrxnVsLambda histo
@@ -903,7 +908,14 @@ singleHadEvsLayerStudy::endJob()
 		set1DBinContents("FinalEnergyFrxnVsLambda", finalEnergyFrxnBinNums[j], finalEnergyFrxns[j]);
 	}
 
+	/*
+	for(int e=0; e<getXBins("All_PFRecHit_z") ; e++){
+		if(get1DBinContents("All_PFRecHit_z",e) > 0.0 ){
+			std::cout<< get1DUpperBinEdge("All_PFRecHit_z",e) << std::endl;
+		}
 
+	}
+	*/
 
 	//makeAndSaveSingle3DHisto("#Delta #eta and #Delta #phi between PFCandidate objects and gen pi+ objects as fxn of PFCandidate energy; #Delta #phi (rad); #Delta #eta; PFCand energy (GeV)","chgdPi_pT50_NoPU_deltaR_btwn_PFCand_and_gen_chgd_pion_vs_PFCand_energy","24","","PFCandidate_deltaR_energy", false);
 
