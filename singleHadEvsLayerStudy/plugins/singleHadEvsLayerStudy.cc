@@ -374,6 +374,19 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 
       }//end makeAndSaveSingle3DHisto(...)
 
+	  double calibrateRecHitEnergy(double eta, double rechitEnergy, double layerWeight, double mipInGeV, double mipEnergyScaling){
+		  //calibrate the energy of a rechit based on the layer it belongs to and its eta position
+		  //return the calibrated energy value
+		  //the sum of all calibrated rechit energies should equal the PFCluster energy from which these rechits were selected
+		  //mipInGeV should correspond to EE, HEF, or HEB, and should be between 50 and 100 x 10^-6 for EE and HEF, and near 1500 x 10^-6 for HEB
+		  double mips = rechitEnergy/mipInGeV;
+		  double effMipsToInvGeV = mipEnergyScaling/(1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
+		  double weightCorrectedEnergy = layerWeight*mips;
+
+		  return (weightCorrectedEnergy/effMipsToInvGeV);
+
+	  }
+
 	  std::vector<double> finalEnergyFrxns;  //public
 	  std::vector<int> finalEnergyFrxnBinNums;  //public
 
@@ -663,26 +676,40 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    //factors to convert rechit energy in GeV to a number of MIPs
-   //double GeVToMIPs_EE = (1/0.000055);
-   //double GeVToMIPs_HEF = (1/0.000085);
-   //double GeVToMIPs_HEB = (1/0.001498);
-
-   double GeVToMIPs_EE = 1; 
-   double GeVToMIPs_HEF = 1;
-   double GeVToMIPs_HEB = 1;
+   double MipsToGeV_EE = 0.000055;
+   double MipsToGeV_HEF = 0.000085;
+   double MipsToGeV_HEB = 0.001498;
+   double EEInverseMipToGeVCorrection = 82.8;
+   double HEFInverseMipToGeVCorrection = 1.0;
+   double HEBInverseMipToGeVCorrection = 1.0;
 
 
    double HGCLayerBoundaries[] = {320.5,321.5,322.5,323.5,324,325,325.5,326.5,327.5,328.5,329,330,331,332,333,334,334.5,336,336.5,337.5,338.5,339.5,340.5,342,343,344,345.5,346.5,347.5,348.5,355,360,364.5,369.5,374,379,384,388.5,393.5,398,403,408,421.5,426,430.5,434.5,439,443.5,445,447.5,452,456.5,461,465,469.5,474,478,482.5,487,491,495.5,500,504.5,508.5,513,517.5,521.5};    //approximate distance in cm between IP and face of each sensitive layer which is furthest from IP 
    
    double HGCLambdaBoundaries[54] = {0.01,0.06,0.1,0.12,0.16,0.18,0.22,0.24,0.28,0.3,0.34,0.37,0.42,0.47,0.5,0.53,0.58,0.61,0.66,0.69,0.74,0.79,0.85,0.9,0.96,1.01,1.07,1.12,1.18,1.23,1.57,1.82,2.07,2.32,2.57,2.82,3.07,3.32,3.57,3.82,4.07,4.32,4.53,4.74,4.95,5.16,5.37,5.58,5.79,6,6.21,6.42,6.63,6.84};       //amount of material in front of every sensitive layer of HGC in terms of hadronic interaction lengths 
    double totalCaloRecHitEnergy = 0.0;
+
+   //caloRecHitEnergyVsLayer has one element for each sensitive layer in HGC
    std::vector<double> caloRecHitEnergyVsLayer;
    std::vector<double> energyFrxnVsLayer;
-   //std::cout<<"about to initialize caloRecHitEnergyVsLayer and energyFrxnVsLayer"<<std::endl;
+
+   //vector storing energy reweighting factors which are optimized to give the best hadronic energy resolution
+   //see Pedro's presentation from October 24 2014
+   //these weights are also stored in particleFlowClusterHGCEE_cfi.py (for EE portion) and particleFlowClusterHGCHEF_cfi.py (for HEF and HEB portions)
+   std::vector<double> reWeightingFactors;
+
    for(unsigned int i=0; i<54 ; i++){
 	   caloRecHitEnergyVsLayer.push_back(0.0);
 	   energyFrxnVsLayer.push_back(0.0);
+	   if(i == 0) reWeightingFactors.push_back(0.0179);
+	   if(i > 0 && i <= 10) reWeightingFactors.push_back(0.0105);
+	   if(i > 10 && i <= 20) reWeightingFactors.push_back(0.0096);
+	   if(i > 20 && i <= 29) reWeightingFactors.push_back(0.0169);
+	   if(i == 30) reWeightingFactors.push_back(0.0464);
+	   if(i > 30 && i <= 41) reWeightingFactors.push_back(0.0474);
+	   if(i > 41) reWeightingFactors.push_back(0.1215);
    }
+
 
    for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
 	   double deltaEta = (clstEE->eta() - gEta);
@@ -693,11 +720,15 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   const std::vector<reco::PFRecHitFraction> EEPFRecHitFractions = clstEE->recHitFractions();
 	   for(unsigned int i=0; i< EEPFRecHitFractions.size() ; i++){
 		   //loop over PFRecHitFraction objects associated with the PFCluster, and add PFRecHit energy to 54 element array of floats and totalCaloRecHitEnergy var
-		   totalCaloRecHitEnergy += ( ( EEPFRecHitFractions[i].fraction() )*(EEPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_EE) );
+
 		   for(unsigned int k=0; k< 54; k++){
 			   if( ((EEPFRecHitFractions[i].recHitRef())->position()).Z() <= HGCLayerBoundaries[k] ){
 				   //look at layer 0, then work way up towards layer 54
-				   caloRecHitEnergyVsLayer[k] += ( ( EEPFRecHitFractions[i].fraction() )*(EEPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_EE) );
+				   //apply energy reweighting factor here which depends on the layer to which the rechit belongs
+				   double tempEn = ( ( EEPFRecHitFractions[i].fraction() )*(EEPFRecHitFractions[i].recHitRef())->energy());
+				   double tempEta = (EEPFRecHitFractions[i].recHitRef())->position().eta();
+				   caloRecHitEnergyVsLayer[k] += calibrateRecHitEnergy(tempEta, tempEn, reWeightingFactors[k], MipsToGeV_EE, EEInverseMipToGeVCorrection);
+				   totalCaloRecHitEnergy += calibrateRecHitEnergy(tempEta, tempEn, reWeightingFactors[k], MipsToGeV_EE, EEInverseMipToGeVCorrection);
 				   break;
 			   }
 		   }//loop over layers of HGC 
@@ -717,11 +748,16 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   const std::vector<reco::PFRecHitFraction> HEFPFRecHitFractions = clstHEF->recHitFractions();
 	   for(unsigned int i=0; i< HEFPFRecHitFractions.size() ; i++){
 		   //loop over PFRecHitFraction objects associated with the PFCluster, and add PFRecHit energy to 54 element array of floats and totalCaloRecHitEnergy var
-		   totalCaloRecHitEnergy += ( ( HEFPFRecHitFractions[i].fraction() )*(HEFPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_HEF) );
+
 		   for(unsigned int k=0; k< 54; k++){
 			   if( ((HEFPFRecHitFractions[i].recHitRef())->position()).Z() <= HGCLayerBoundaries[k] ){
 				   //look at layer 0, then work way up towards layer 54
-				   caloRecHitEnergyVsLayer[k] += ( ( HEFPFRecHitFractions[i].fraction() )*(HEFPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_HEF) );
+				   //apply energy reweighting factor here which depends on the layer to which the rechit belongs
+				   double tempEn = ( ( HEFPFRecHitFractions[i].fraction() )*(HEFPFRecHitFractions[i].recHitRef())->energy());
+				   double tempEta = (HEFPFRecHitFractions[i].recHitRef())->position().eta();
+				   caloRecHitEnergyVsLayer[k] += calibrateRecHitEnergy(tempEta, tempEn, reWeightingFactors[k], MipsToGeV_HEF, HEFInverseMipToGeVCorrection);
+				   totalCaloRecHitEnergy += calibrateRecHitEnergy(tempEta, tempEn, reWeightingFactors[k], MipsToGeV_HEF, HEFInverseMipToGeVCorrection);
+	
 				   break;
 			   }
 		   }//loop over layers of HGC 
@@ -739,11 +775,17 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   const std::vector<reco::PFRecHitFraction> HEBPFRecHitFractions = clstHEB->recHitFractions();
 	   for(unsigned int i=0; i< HEBPFRecHitFractions.size() ; i++){
 		   //loop over PFRecHitFraction objects associated with the PFCluster, and add PFRecHit energy to 54 element array of floats and totalCaloRecHitEnergy var
-		   totalCaloRecHitEnergy += ( ( HEBPFRecHitFractions[i].fraction() )*(HEBPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_HEB) );
+
 		   for(unsigned int k=0; k< 54; k++){
 			   if( ((HEBPFRecHitFractions[i].recHitRef())->position()).Z() <= HGCLayerBoundaries[k] ){
 				   //look at layer 0, then work way up towards layer 54
-				   caloRecHitEnergyVsLayer[k] += ( ( HEBPFRecHitFractions[i].fraction() )*(HEBPFRecHitFractions[i].recHitRef())->energy()/(GeVToMIPs_HEB) );
+				   double tempEn = ( ( HEBPFRecHitFractions[i].fraction() )*(HEBPFRecHitFractions[i].recHitRef())->energy());
+				   double tempEta = (HEBPFRecHitFractions[i].recHitRef())->position().eta();
+				   caloRecHitEnergyVsLayer[k] += calibrateRecHitEnergy(tempEta, tempEn, reWeightingFactors[k], MipsToGeV_HEB, HEBInverseMipToGeVCorrection);
+				   totalCaloRecHitEnergy += calibrateRecHitEnergy(tempEta, tempEn, reWeightingFactors[k], MipsToGeV_HEB, HEBInverseMipToGeVCorrection);
+	
+//				   caloRecHitEnergyVsLayer[k] += ( ( HEBPFRecHitFractions[i].fraction() )*(HEBPFRecHitFractions[i].recHitRef())->energy())*reWeightingFactors[k];
+//				   totalCaloRecHitEnergy += ( ( HEBPFRecHitFractions[i].fraction() )*(HEBPFRecHitFractions[i].recHitRef())->energy() )*reWeightingFactors[k];
 				   break;
 			   }
 		   }//loop over layers of HGC 
@@ -752,7 +794,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
    }//loop over HGCHEB PFClusters
 
-   //std::cout<<"finished loop over HEB PFClusters that fills caloRecHitEnergyVsLayer"<<std::endl;
+   std::cout<<"total rechit energy equals "<< totalCaloRecHitEnergy << " GeV" <<std::endl;
 
    for(int i=0; i<54; i++){
 	   //fill energyFrxnVsLayer vector 

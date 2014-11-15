@@ -4,7 +4,7 @@ process = cms.Process("Demo")
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10) )
 
 process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
@@ -84,7 +84,8 @@ process.demo = cms.EDAnalyzer('singleHadEvsLayerStudy'
 )
 
 process.TFileService = cms.Service("TFileService",
-	fileName = cms.string('/eos/uscms/store/user/skalafut/HGCal/analyzed_step3_chargedPiPt500_NoPU_withPFRecHits_1000evts_with_DR4_cut.root')
+	#fileName = cms.string('/eos/uscms/store/user/skalafut/HGCal/analyzed_step3_chargedPiPt500_NoPU_withPFRecHits_1000evts_with_DR4_cut.root')
+	fileName = cms.string('test.root')
 
 )
 
