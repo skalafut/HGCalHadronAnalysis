@@ -433,7 +433,9 @@ singleHadEvsLayerStudy::singleHadEvsLayerStudy(const edm::ParameterSet& iConfig)
 
    hists_["EE_PFRecHit_energy"]=fs->make<TH1D>("EE_PFRecHit_energy","Energy of rechits in HGCEE in GeV",100,0.,0.001);  
    hists_["HEF_PFRecHit_energy"]=fs->make<TH1D>("HEF_PFRecHit_energy","Energy of rechits in HGCHEF in GeV",100,0.,0.001);  
-   hists_["HEB_PFRecHit_energy"]=fs->make<TH1D>("HEB_PFRecHit_energy","Energy of rechits in HGCHEB in GeV",100,0.,0.01);  
+   hists_["HEB_PFRecHit_energy"]=fs->make<TH1D>("HEB_PFRecHit_energy","Energy of rechits in HGCHEB in GeV",100,0.,0.01); 
+   
+   hists_["RecHitCalib"]=fs->make<TH1D>("RecHitCalib","#DeltaE/E for 200 GeV #pi+ at #eta 2.0 using rechit energies",200,-1.0,1.0);
 
 
    //these four plots DO NOT pull PFRecHit objects from PFCluster objects, they are simply showing all of the PFRecHit objects as a fxn of Z distance for all events
@@ -519,7 +521,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    edm::Handle<std::vector<reco::GenParticle> > genPart;
    iEvent.getByLabel("genParticles",genPart);
  
-   float gEn =0;	//energy of a generator chgd pion
+   double gEn =0;	//energy of a generator chgd pion
    float gEta = 0;
    float gPhi = 0;	//eta and phi of generator chgd pion
    int numGenParticles = 0;	//keeps track of the total number of gen lvl particles in the event
@@ -632,6 +634,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    if( gEn > 3.0 && gEta > 1.6 && gEn < 210.) //fillThree("PFClusterSum_HCALovrECAL_gen_eta_energy", gEn, gEta, (totalHcalE/totalEME) );
    
    totalCaloEnergy += totalEME + totalHcalE;
+   std::cout<<"total PFCluster energy equals "<< totalCaloEnergy <<std::endl;
 
    //This code checks that a plot of PFRecHit z position shows a few mm gap between Si layers in HGCEE and HEF, and between scintillator layers in HEB
 
@@ -715,7 +718,8 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   double deltaEta = (clstEE->eta() - gEta);
 	   double deltaPhi = (clstEE->phi() - gPhi);
 	   double deltaR = TMath::Sqrt(TMath::Power(deltaEta,2)+TMath::Power(deltaPhi,2));
-	   if(clstEE->energy() <= minEnergy && gEta >= 1.7 && gEta <= 2.8 && clstEE->eta() >= 1.55 && clstEE->eta() <= 2.95 && deltaR <= 0.4) continue;
+	   if(clstEE->energy() <= minEnergy || gEta <= 1.7 || gEta >= 2.8 || clstEE->eta() <= 1.5 || clstEE->eta() >= 3.0 || deltaR > 5) continue;  //for analysis of fixed pT variable eta events
+	   //if(clstEE->energy() <= minEnergy) continue;  //for analysis of fixed E and eta, 0 PU events 
 	   //now get the PFRecHitFraction objects associated with the PFCluster
 	   const std::vector<reco::PFRecHitFraction> EEPFRecHitFractions = clstEE->recHitFractions();
 	   for(unsigned int i=0; i< EEPFRecHitFractions.size() ; i++){
@@ -743,7 +747,8 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   double deltaEta = (clstHEF->eta() - gEta);
 	   double deltaPhi = (clstHEF->phi() - gPhi);
 	   double deltaR = TMath::Sqrt(TMath::Power(deltaEta,2)+TMath::Power(deltaPhi,2));
-	   if(clstHEF->energy() <= minEnergy && gEta >= 1.7 && gEta <= 2.8 && clstHEF->eta() >= 1.55 && clstHEF->eta() <= 2.95 && deltaR <= 0.4) continue;
+	   if(clstHEF->energy() <= minEnergy || gEta <= 1.7 || gEta >= 2.8 || clstHEF->eta() <= 1.5 || clstHEF->eta() >= 3.0 || deltaR > 5) continue;
+	   //if(clstHEF->energy() <= minEnergy) continue;  //for analysis of fixed E and eta, 0 PU events
 	   //now get the PFRecHitFraction objects associated with the PFCluster
 	   const std::vector<reco::PFRecHitFraction> HEFPFRecHitFractions = clstHEF->recHitFractions();
 	   for(unsigned int i=0; i< HEFPFRecHitFractions.size() ; i++){
@@ -770,7 +775,8 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   double deltaEta = (clstHEB->eta() - gEta);
 	   double deltaPhi = (clstHEB->phi() - gPhi);
 	   double deltaR = TMath::Sqrt(TMath::Power(deltaEta,2)+TMath::Power(deltaPhi,2));
-	   if(clstHEB->energy() <= minEnergy && gEta >= 1.7 && gEta <= 2.8 && clstHEB->eta() >= 1.55 && clstHEB->eta() <= 2.95 && deltaR <= 0.4) continue;
+	   if(clstHEB->energy() <= minEnergy || gEta <= 1.7 || gEta >= 2.8 || clstHEB->eta() <= 1.5 || clstHEB->eta() >= 3.0 || deltaR > 5) continue;
+	   //if(clstHEB->energy() <= minEnergy) continue;  //for analysis of fixed E and eta, 0 PU events
 	   //now get the PFRecHitFraction objects associated with the PFCluster
 	   const std::vector<reco::PFRecHitFraction> HEBPFRecHitFractions = clstHEB->recHitFractions();
 	   for(unsigned int i=0; i< HEBPFRecHitFractions.size() ; i++){
@@ -795,6 +801,8 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    }//loop over HGCHEB PFClusters
 
    std::cout<<"total rechit energy equals "<< totalCaloRecHitEnergy << " GeV" <<std::endl;
+
+   fill("RecHitCalib", (totalCaloRecHitEnergy - gEn)/gEn);
 
    for(int i=0; i<54; i++){
 	   //fill energyFrxnVsLayer vector 
