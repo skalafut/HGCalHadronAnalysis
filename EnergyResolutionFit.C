@@ -18,10 +18,10 @@ void EnergyResolutionFit()
 {        
 
   unsigned int numEnergyBins = 9;
-  float Energymin=0.0,Energymax=1100.0;  
+  float Energymin=0.0,Energymax=600.0;  
   float deltaEmin=-1.0,deltaEmax=1.0; 
 
-  std::string inputFileDir = "energyResoMacroInputFiles/";
+  std::string inputFileDir = "../energyResoMacroInputFiles/";
   std::string partialNoTrackInputFileName = "refinedNoTrackChgdPionGun_EGenBin";
   std::string partialWithTrackInputFileName = "refinedWithTrackChgdPionGun_EGenBin";
 
@@ -60,17 +60,17 @@ void EnergyResolutionFit()
 
 
 
-  std::string outputPlotDir = "plotsFromEnergyResoFit/";
+  std::string outputPlotDir = "../plotsFromEnergyResoFit/";
   std::string partialNoTrackESpreadOutputPlotName = "EnergySpread_NoTrack";
   std::string partialNoTrackGenEnergyOutput = "GenEnergy_NoTrack_EGenBin";
 
   std::vector<std::string> etaVals;
-  etaVals.push_back("1.5");
-  etaVals.push_back("1.75");
-  etaVals.push_back("2");
-  etaVals.push_back("2.25");
+  etaVals.push_back("1.3");
+  etaVals.push_back("1.6");
+  etaVals.push_back("1.9");
+  etaVals.push_back("2.2");
   etaVals.push_back("2.5");
-  etaVals.push_back("2.9");
+  etaVals.push_back("2.8");
 
   std::vector<std::string> etaBins;
   etaBins.push_back("0");
@@ -92,26 +92,26 @@ void EnergyResolutionFit()
   genEnergyBins.push_back("8");
 
   std::vector<std::string> genEnergyVals;
-  genEnergyVals.push_back("2GeV");
-  genEnergyVals.push_back("5GeV");
   genEnergyVals.push_back("10GeV");
-  genEnergyVals.push_back("20GeV");
-  genEnergyVals.push_back("40GeV");
+  genEnergyVals.push_back("30GeV");
+  genEnergyVals.push_back("50GeV");
+  genEnergyVals.push_back("80GeV");
   genEnergyVals.push_back("100GeV");
+  genEnergyVals.push_back("150GeV");
   genEnergyVals.push_back("200GeV");
+  genEnergyVals.push_back("300GeV");
   genEnergyVals.push_back("500GeV");
-  genEnergyVals.push_back("1000GeV");
 
 
   std::string deltaEBeginning = "deltaE", eleEnergyBeginning = "eleEnergy", meanDeltaEBeginning = "meanDeltaE/genE", sigmaDeltaEBeginning = "sigmaDeltaE/genE", nMuMuXBeginning = "nMuMuX", alphaMuMuXBeginning = "alphaMuMuX", pdfX1Beginning = "pdfX1", nCanddidateBeginning = "nCanddidate", extendpdf1Beginning = "extendpdf1", totalPdfBeginning = "totPdf";
   //std::string c1Beginning = "c1", c2Beginning = "c2", BkgXPdfBeginning = "BkgXpdf";
 
-  for(unsigned int j=1; j<6; j++){
+  for(unsigned int j=1; j<2; j++){
 
-	  //TCanvas * cEnergySpreads = new TCanvas("cES","cES",1600,1100);
-	  //cEnergySpreads.Divide(3,3);
+	  TCanvas * cEnergySpreads = new TCanvas("cES","cES",1600,1100);
+	  cEnergySpreads.Divide(3,3);
 
-	  for(unsigned int i=1; i<numEnergyBins; i++){
+	  for(unsigned int i=0; i<numEnergyBins; i++){
 
 		  std::string deltaEName = deltaEBeginning + genEnergyBins[i];
 		  std::string eleEName = eleEnergyBeginning + genEnergyBins[i];
@@ -366,7 +366,7 @@ void EnergyResolutionFit()
 
 
 	
-	  /*	  
+	  /**/	  
 		  gROOT->SetStyle("Plain");
 
 		  //std::string canvXName = "cx" + genEnergyBins[i];
@@ -384,7 +384,7 @@ void EnergyResolutionFit()
 		  totalPdf.plotOn(frame);
 		  totalPdf.paramOn(frame,Parameters(RooArgSet (meanDeltaE,sigmaDeltaE)));
 		  frame->Draw(); 
-		 */ 
+		 /**/ 
 
 		  /*
 		  if(i== (numEnergyBins-1) ){
@@ -420,10 +420,11 @@ void EnergyResolutionFit()
   }
 
 
-  /**/
+  /*
+  //UPDATE resolution plots so that the x axis shows 1/sqrt(E_gen)
   TVectorT<float> genEnergyMeans(numEnergyBins);
   TVectorT<float> genEnergyMeanErrors(numEnergyBins);
-  float genEngs[] = {2,5,10,20,40,100,200,500,1000};
+  float genEngs[] = {10,30,50,80,100,150,200,300,500};
  
   TVectorT<float> meanERecoFirstEtaBin(numEnergyBins);
   TVectorT<float> meanERecoErrorFirstEtaBin(numEnergyBins);
@@ -469,9 +470,9 @@ void EnergyResolutionFit()
   TCanvas * cFirst = new TCanvas("cFirst","cFirst",800,800);
   cFirst->cd();
 
-  TF1 * fitToEtaBinOneResolution = new TF1("fitToEtaBinOneResolution","([0]/TMath::Sqrt(x))+[1]",39,1001);
+  TF1 * fitToEtaBinOneResolution = new TF1("fitToEtaBinOneResolution","([0]/TMath::Sqrt(x))+[1]",39,501);
   TGraphErrors * chgdPionEResoNoTrackFirstEtaBin = new TGraphErrors(genEnergyMeans, withoutTrackerFitSigmasFirstEtaBin, genEnergyMeanErrors, withoutTrackerFitSigmaErrorsFirstEtaBin);
-  chgdPionEResoNoTrackFirstEtaBin->SetTitle("Pi+ Energy Resolution #eta_{gen} = 1.75; E_{gen} (GeV); #sigma of #DeltaE/E");
+  chgdPionEResoNoTrackFirstEtaBin->SetTitle("Pi+ Energy Resolution #eta_{gen} = 1.6; E_{gen} (GeV); #sigma of #DeltaE/E");
   chgdPionEResoNoTrackFirstEtaBin->SetFillStyle(0);
   chgdPionEResoNoTrackFirstEtaBin->SetMarkerStyle(20);
   chgdPionEResoNoTrackFirstEtaBin->SetMarkerColor(1);
@@ -492,10 +493,10 @@ void EnergyResolutionFit()
   cNine->SetLogy(1);
  
   
-  TF1 * fitToEtaBinOneLinearity = new TF1("fitToEtaBinOneLinearity","[0]*x+[1]",39,1001);
+  TF1 * fitToEtaBinOneLinearity = new TF1("fitToEtaBinOneLinearity","[0]*x+[1]",39,501);
  
   TGraphErrors * chgdPionELinearityNoTrackFirstEtaBin = new TGraphErrors(genEnergyMeans, meanERecoFirstEtaBin, genEnergyMeanErrors, meanERecoErrorFirstEtaBin);
-  chgdPionELinearityNoTrackFirstEtaBin->SetTitle("Pi+ Energy Linearity #eta_{gen} = 1.75; E_{gen} (GeV); E_{reco} (GeV)");
+  chgdPionELinearityNoTrackFirstEtaBin->SetTitle("Pi+ Energy Linearity #eta_{gen} = 1.6; E_{gen} (GeV); E_{reco} (GeV)");
   chgdPionELinearityNoTrackFirstEtaBin->SetFillStyle(0);
   chgdPionELinearityNoTrackFirstEtaBin->SetMarkerStyle(20);
   chgdPionELinearityNoTrackFirstEtaBin->SetMarkerColor(2);
@@ -517,7 +518,7 @@ void EnergyResolutionFit()
   TF1 * fitToEtaBinTwoResolution = new TF1("fitToEtaBinTwoResolution","([0]/TMath::Sqrt(x))+[1]",19,501);
  
   TGraphErrors * chgdPionEResoNoTrackSecondEtaBin = new TGraphErrors(genEnergyMeans, withoutTrackerFitSigmasSecondEtaBin, genEnergyMeanErrors, withoutTrackerFitSigmaErrorsSecondEtaBin);
-  chgdPionEResoNoTrackSecondEtaBin->SetTitle("Pi+ Energy Resolution #eta_{gen} = 2.0; E_{gen} (GeV); #sigma of #DeltaE/E");
+  chgdPionEResoNoTrackSecondEtaBin->SetTitle("Pi+ Energy Resolution #eta_{gen} = 1.9; E_{gen} (GeV); #sigma of #DeltaE/E");
   chgdPionEResoNoTrackSecondEtaBin->SetFillStyle(0);
   chgdPionEResoNoTrackSecondEtaBin->SetMarkerStyle(20);
   chgdPionEResoNoTrackSecondEtaBin->SetMarkerColor(2);
@@ -539,7 +540,7 @@ void EnergyResolutionFit()
   TF1 * fitToEtaBinTwoLinearity = new TF1("fitToEtaBinTwoLinearity","[0]*x+[1]",19,501);
  
   TGraphErrors * chgdPionELinearityNoTrackSecondEtaBin = new TGraphErrors(genEnergyMeans, meanERecoSecondEtaBin, genEnergyMeanErrors, meanERecoErrorSecondEtaBin);
-  chgdPionELinearityNoTrackSecondEtaBin->SetTitle("Pi+ Energy Linearity #eta_{gen} = 2.0; E_{gen} (GeV); E_{reco} (GeV)");
+  chgdPionELinearityNoTrackSecondEtaBin->SetTitle("Pi+ Energy Linearity #eta_{gen} = 1.9; E_{gen} (GeV); E_{reco} (GeV)");
   chgdPionELinearityNoTrackSecondEtaBin->SetFillStyle(0);
   chgdPionELinearityNoTrackSecondEtaBin->SetMarkerStyle(20);
   chgdPionELinearityNoTrackSecondEtaBin->SetMarkerColor(2);
@@ -560,7 +561,7 @@ void EnergyResolutionFit()
   TF1 * fitToEtaBinThreeResolution = new TF1("fitToEtaBinThreeResolution","([0]/TMath::Sqrt(x))+[1]",19,501);
 
   TGraphErrors * chgdPionEResoNoTrackThirdEtaBin = new TGraphErrors(genEnergyMeans, withoutTrackerFitSigmasThirdEtaBin, genEnergyMeanErrors, withoutTrackerFitSigmaErrorsThirdEtaBin);
-  chgdPionEResoNoTrackThirdEtaBin->SetTitle("Pi+ Energy Resolution #eta_{gen} = 2.25; E_{gen} (GeV); #sigma of #DeltaE/E");
+  chgdPionEResoNoTrackThirdEtaBin->SetTitle("Pi+ Energy Resolution #eta_{gen} = 2.2; E_{gen} (GeV); #sigma of #DeltaE/E");
   chgdPionEResoNoTrackThirdEtaBin->SetFillStyle(0);
   chgdPionEResoNoTrackThirdEtaBin->SetMarkerStyle(20);
   chgdPionEResoNoTrackThirdEtaBin->SetMarkerColor(4);
@@ -582,7 +583,7 @@ void EnergyResolutionFit()
   TF1 * fitToEtaBinThreeLinearity = new TF1("fitToEtaBinThreeLinearity","[0]*x+[1]",19,501);
  
   TGraphErrors * chgdPionELinearityNoTrackThirdEtaBin = new TGraphErrors(genEnergyMeans, meanERecoThirdEtaBin, genEnergyMeanErrors, meanERecoErrorThirdEtaBin);
-  chgdPionELinearityNoTrackThirdEtaBin->SetTitle("Pi+ Energy Linearity #eta_{gen} = 2.25; E_{gen} (GeV); E_{reco} (GeV)");
+  chgdPionELinearityNoTrackThirdEtaBin->SetTitle("Pi+ Energy Linearity #eta_{gen} = 2.2; E_{gen} (GeV); E_{reco} (GeV)");
   chgdPionELinearityNoTrackThirdEtaBin->SetFillStyle(0);
   chgdPionELinearityNoTrackThirdEtaBin->SetMarkerStyle(20);
   chgdPionELinearityNoTrackThirdEtaBin->SetMarkerColor(2);
@@ -644,10 +645,10 @@ void EnergyResolutionFit()
   TCanvas * cFifth = new TCanvas("cFifth","cFifth",800,800);
   cFifth->cd();
 
-  TF1 * fitToEtaBinFiveResolution = new TF1("fitToEtaBinFiveResolution","([0]/TMath::Sqrt(x))+[1]",39,1001);
+  TF1 * fitToEtaBinFiveResolution = new TF1("fitToEtaBinFiveResolution","([0]/TMath::Sqrt(x))+[1]",39,501);
 
   TGraphErrors * chgdPionEResoNoTrackFifthEtaBin = new TGraphErrors(genEnergyMeans, withoutTrackerFitSigmasFifthEtaBin, genEnergyMeanErrors, withoutTrackerFitSigmaErrorsFifthEtaBin);
-  chgdPionEResoNoTrackFifthEtaBin->SetTitle("Pi+ Energy Resolution #eta_{gen} = 2.9; E_{gen} (GeV); #sigma of #DeltaE/E");
+  chgdPionEResoNoTrackFifthEtaBin->SetTitle("Pi+ Energy Resolution #eta_{gen} = 2.8; E_{gen} (GeV); #sigma of #DeltaE/E");
   chgdPionEResoNoTrackFifthEtaBin->SetFillStyle(0);
   chgdPionEResoNoTrackFifthEtaBin->SetMarkerStyle(20);
   chgdPionEResoNoTrackFifthEtaBin->SetMarkerColor(8);
@@ -666,10 +667,10 @@ void EnergyResolutionFit()
   cThirteen->SetLogx(1);
   cThirteen->SetLogy(1);
   
-  TF1 * fitToEtaBinFiveLinearity = new TF1("fitToEtaBinFiveLinearity","[0]*x+[1]",39,1001);
+  TF1 * fitToEtaBinFiveLinearity = new TF1("fitToEtaBinFiveLinearity","[0]*x+[1]",39,501);
  
   TGraphErrors * chgdPionELinearityNoTrackFifthEtaBin = new TGraphErrors(genEnergyMeans, meanERecoFifthEtaBin, genEnergyMeanErrors, meanERecoErrorFifthEtaBin);
-  chgdPionELinearityNoTrackFifthEtaBin->SetTitle("Pi+ Energy Linearity #eta_{gen} = 2.9; E_{gen} (GeV); E_{reco} (GeV)");
+  chgdPionELinearityNoTrackFifthEtaBin->SetTitle("Pi+ Energy Linearity #eta_{gen} = 2.8; E_{gen} (GeV); E_{reco} (GeV)");
   chgdPionELinearityNoTrackFifthEtaBin->SetFillStyle(0);
   chgdPionELinearityNoTrackFifthEtaBin->SetMarkerStyle(20);
   chgdPionELinearityNoTrackFifthEtaBin->SetMarkerColor(2);
@@ -683,6 +684,7 @@ void EnergyResolutionFit()
   std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackFifthEtaBin.gif"; 
   cThirteen->SaveAs(outSecondGraphName.c_str(),"recreate");
 
+  */
 
 
 
@@ -691,11 +693,11 @@ void EnergyResolutionFit()
   c3->cd();
 
   TLegend * leg3 = new TLegend(0.65, 0.65, 1, 0.85);
-  leg3->AddEntry( chgdPionEResoNoTrackFifthEtaBin, "#eta_{gen} 2.9");
+  leg3->AddEntry( chgdPionEResoNoTrackFifthEtaBin, "#eta_{gen} 2.8");
   //leg3->AddEntry( chgdPionEResoNoTrackFourthEtaBin, "#eta_{gen} 2.5");
-  leg3->AddEntry( chgdPionEResoNoTrackThirdEtaBin, "#eta_{gen} 2.25");
-  leg3->AddEntry( chgdPionEResoNoTrackSecondEtaBin, "#eta_{gen} 2.0");
-  leg3->AddEntry( chgdPionEResoNoTrackFirstEtaBin, "#eta_{gen} 1.75");
+  leg3->AddEntry( chgdPionEResoNoTrackThirdEtaBin, "#eta_{gen} 2.2");
+  leg3->AddEntry( chgdPionEResoNoTrackSecondEtaBin, "#eta_{gen} 1.9");
+  leg3->AddEntry( chgdPionEResoNoTrackFirstEtaBin, "#eta_{gen} 1.6");
 
   TMultiGraph * chgdPionEnergyResolution = new TMultiGraph();
   chgdPionEnergyResolution->SetTitle("Pi+ Energy Resolution; gen energy (GeV);");

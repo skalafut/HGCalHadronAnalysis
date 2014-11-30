@@ -435,8 +435,9 @@ singleHadEvsLayerStudy::singleHadEvsLayerStudy(const edm::ParameterSet& iConfig)
    hists_["HEF_PFRecHit_energy"]=fs->make<TH1D>("HEF_PFRecHit_energy","Energy of rechits in HGCHEF in GeV",100,0.,0.001);  
    hists_["HEB_PFRecHit_energy"]=fs->make<TH1D>("HEB_PFRecHit_energy","Energy of rechits in HGCHEB in GeV",100,0.,0.01); 
    
-   hists_["RecHitCalib"]=fs->make<TH1D>("RecHitCalib","#DeltaE/E for 200 GeV #pi+ at #eta 2.0 using rechit energies",200,-1.0,1.0);
+   //hists_["RecHitCalib"]=fs->make<TH1D>("RecHitCalib","#DeltaE/E for 200 GeV #pi+ at #eta 2.0 using rechit energies",200,-1.0,1.0);
 
+   hists_["PFRecHit_Z_from_HGCEECluster"]=fs->make<TH1D>("PFRecHit_Z_from_HGCEECluster","Z position of rechits belonging to HGCEE PFClusters",200,300.,360.);
 
    //these four plots DO NOT pull PFRecHit objects from PFCluster objects, they are simply showing all of the PFRecHit objects as a fxn of Z distance for all events
    /*
@@ -448,6 +449,29 @@ singleHadEvsLayerStudy::singleHadEvsLayerStudy(const edm::ParameterSet& iConfig)
    //hists_["All_PFRecHit_z"]=fs->make<TH1D>("All_PFRecHit_z","Z position of all HGC PFRecHits ; distance from IP (cm);",500,310.,560.);  //this histo is made to show the Z distance between each sensitive layer of HGC (Si or scintillator) 
 
 
+   //histos needed to compute reconstruction efficiency as a fxn of energy and eta
+   hists_["ChgdPiSomeE_1"]=fs->make<TH1D>("ChgdPiSomeE_1","# of events with nonzero reco energy and gen eta near 1.6 versus gen energy",100,0.,501.0);
+   hists_["ChgdPiAnyE_1"]=fs->make<TH1D>("ChgdPiAnyE_1","total # of events analyzed with gen eta near 1.6 vs gen energy",100,0.,501.0);
+   hists_["ChgdPiEnEfficiency_1"]=fs->make<TH1D>("ChgdPiEnEfficiency_1","Reconstruction efficiency for #pi+ with gen eta near 1.6 versus gen energy",100,0.,501.0);
+ 
+   hists_["ChgdPiSomeE_2"]=fs->make<TH1D>("ChgdPiSomeE_2","# of events with nonzero reco energy and gen eta near 1.9 versus gen energy",100,0.,501.0);
+   hists_["ChgdPiAnyE_2"]=fs->make<TH1D>("ChgdPiAnyE_2","total # of events analyzed with gen eta near 1.9 vs gen energy",100,0.,501.0);
+   hists_["ChgdPiEnEfficiency_2"]=fs->make<TH1D>("ChgdPiEnEfficiency_2","Reconstruction efficiency for #pi+ with gen eta near 1.9 versus gen energy",100,0.,501.0);
+   
+   hists_["ChgdPiSomeE_3"]=fs->make<TH1D>("ChgdPiSomeE_3","# of events with nonzero reco energy and gen eta near 2.2 versus gen energy",100,0.,501.0);
+   hists_["ChgdPiAnyE_3"]=fs->make<TH1D>("ChgdPiAnyE_3","total # of events analyzed with gen eta near 2.2 vs gen energy",100,0.,501.0);
+   hists_["ChgdPiEnEfficiency_3"]=fs->make<TH1D>("ChgdPiEnEfficiency_3","Reconstruction efficiency for #pi+ with gen eta near 2.2 versus gen energy",100,0.,501.0);
+
+   hists_["ChgdPiSomeE_4"]=fs->make<TH1D>("ChgdPiSomeE_4","# of events with nonzero reco energy and gen eta near 2.5 versus gen energy",100,0.,501.0);
+   hists_["ChgdPiAnyE_4"]=fs->make<TH1D>("ChgdPiAnyE_4","total # of events analyzed with gen eta near 2.5 vs gen energy",100,0.,501.0);
+   hists_["ChgdPiEnEfficiency_4"]=fs->make<TH1D>("ChgdPiEnEfficiency_4","Reconstruction efficiency for #pi+ with gen eta near 2.5 versus gen energy",100,0.,501.0);
+
+   hists_["ChgdPiSomeE_5"]=fs->make<TH1D>("ChgdPiSomeE_5","# of events with nonzero reco energy and gen eta near 2.8 versus gen energy",100,0.,501.0);
+   hists_["ChgdPiAnyE_5"]=fs->make<TH1D>("ChgdPiAnyE_5","total # of events analyzed with gen eta near 2.8 vs gen energy",100,0.,501.0);
+   hists_["ChgdPiEnEfficiency_5"]=fs->make<TH1D>("ChgdPiEnEfficiency_5","Reconstruction efficiency for #pi+ with gen eta near 2.8 versus gen energy",100,0.,501.0);
+
+   //histos needed to compute reconstruction efficiency as a fxn of pT and eta
+ 
 
    /*
    histsThree_["PFClusterSum_HCALovrECAL_gen_eta_energy"]=fs->make<TH3D>("PFClusterSum_HCALovrECAL_gen_eta_energy","Reco E_HCAL/E_ECAL for Pi+ vs gen Pi+ energy and eta", 100, 0., 210., 15, 1.55, 3.0, 30, 0., 15.);
@@ -494,16 +518,16 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
    //float multiplier = 20.0;
    //float start = 30.0;
-   binVals.push_back(1.98);
-   binVals.push_back(4.98);
    binVals.push_back(9.98);
-   binVals.push_back(19.98);
-   binVals.push_back(39.98);
+   binVals.push_back(29.98);
+   binVals.push_back(49.98);
+   binVals.push_back(79.98);
    binVals.push_back(99.98);
+   binVals.push_back(149.98);
    binVals.push_back(199.98);
-   binVals.push_back(499.98);
-   binVals.push_back(999.9);
-   binVals.push_back(1001.0);
+   binVals.push_back(299.98);
+   binVals.push_back(499.9);
+   binVals.push_back(501.0);
   
    
    for(unsigned int i=1; i<(numberOfBins+1) ; i++){
@@ -523,16 +547,18 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
  
    double gEn =0;	//energy of a generator chgd pion
    float gEta = 0;
-   float gPhi = 0;	//eta and phi of generator chgd pion
-   int numGenParticles = 0;	//keeps track of the total number of gen lvl particles in the event
+   //float gPhi = 0;	//eta and phi of generator chgd pion
+   double gPt = 0;
+   //int numGenParticles = 0;	//keeps track of the total number of gen lvl particles in the event
 
    for(std::vector<reco::GenParticle>::const_iterator genIt=genPart->begin(); genIt != genPart->end(); genIt++){
-	   numGenParticles++;
+	   //numGenParticles++;
 	   if(genIt->pdgId() == 211){
 		  //if the genIt pdgId is +211 then the particle is a pi+
 		  gEta = genIt->eta();
-		  gPhi = genIt->phi();
+		  //gPhi = genIt->phi();
 		  gEn = (genIt->pt())*(TMath::CosH(genIt->eta()));
+		  gPt = genIt->pt();
 	   }
 
    }//end loop over GenParticle
@@ -544,6 +570,9 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   std::cout<<"no PFCluster collection found with label particleFlowClusterHGCEE" <<std::endl;
    }
 
+   /*
+	* don't use these collections while the new HGC clustering algorithm is being retuned, and all PFClusters are
+	* being saved into the collection particleFlowClusterHGCEE
    edm::Handle<std::vector<reco::PFCluster> > PFClustersHEF;
    iEvent.getByLabel("particleFlowClusterHGCHEF","",PFClustersHEF);
    if(!PFClustersHEF.isValid() ){
@@ -555,15 +584,18 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    if(!PFClustersHEB.isValid() ){
 	   std::cout<<"no PFCluster collection found with label particleFlowClusterHGCHEB" <<std::endl;
    }
+   */
 
 
    //double totalTrackAndCaloEnergy = 0.;
    double totalCaloEnergy = 0.;
+   double totalCaloPt = 0.;
    double minEnergy = 0.10;   //in GeV
-   double boostHEBEnergy = 0.;  //energy threshold for PFClusters in HEB
+   //double boostHEBEnergy = 0.;  //energy threshold for PFClusters in HEB
    double totalEME = 0.;
-   double totalHcalE = 0.;
-   double HEBEnergy = 0.;
+   double totalEMPt = 0.;
+   //double totalHcalE = 0.;
+   //double HEBEnergy = 0.;
 
    //(PFCluster object).pt() and (PFCluster object).energy() both return
    //double values
@@ -574,28 +606,47 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    //with neutral K_longs)
 
    //use these to find the highest energy PFCluster from each subdetector in each event
-   double maxHEBEnergy = 0;
-   double maxEEEnergy = 0;
-   double maxHEFEnergy = 0;
+   //double maxHEBEnergy = 0;
+   //double maxEEEnergy = 0;
+   //double maxHEFEnergy = 0;
     
    
    for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
 	   if(clstEE->energy() <= minEnergy) continue;
 	   totalEME += clstEE->energy();
+	   totalEMPt += clstEE->pt();
 	   //fillThree("EEPFCluster_deltaR_energy", clstEE->phi() - gPhi, clstEE->eta() - gEta, clstEE->energy() );
+	   /*
 	   if(clstEE->energy() > maxEEEnergy){
 		   maxEEEnergy = 0;
 		   maxEEEnergy += clstEE->energy();
 	   }
+	   */
    }
+
+   /*
+   for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
+	   if(clstEE->energy() <= minEnergy ) continue;  //for analysis of fixed pT variable eta events
+	   //now get the PFRecHitFraction objects associated with the PFCluster
+	   const std::vector<reco::PFRecHitFraction> EEPFRecHitFractions = clstEE->recHitFractions();
+	   for(unsigned int i=0; i< EEPFRecHitFractions.size() ; i++){
+		   //loop over PFRecHitFraction objects associated with the PFCluster, and add PFRecHit energy to 54 element array of floats and totalCaloRecHitEnergy var
+		   fill("PFRecHit_Z_from_HGCEECluster",((EEPFRecHitFractions[i].recHitRef())->position()).Z());
+
+	   }//loop over PFRecHitFraction objects
+
+   }//loop over HGCEE PFClusters
+
 
    for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
 	   if(clstEE->energy() == maxEEEnergy){
 		   //fillThree("MaxEEPFCluster_deltaR_energy", clstEE->phi() - gPhi, clstEE->eta() - gEta, clstEE->energy() );
 	   }
    }
+   */
 
-		
+
+   /*
    for(std::vector<reco::PFCluster>::const_iterator clstHEF=PFClustersHEF->begin(); clstHEF != PFClustersHEF->end(); clstHEF++){
 	   if(clstHEF->energy() <= minEnergy) continue;
 	   totalHcalE += clstHEF->energy();
@@ -629,15 +680,22 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 		   //fillThree("MaxHEBPFCluster_deltaR_energy", clstHEB->phi() - gPhi, clstHEB->eta() - gEta, clstHEB->energy() );
 	   }
    }
+   */
 
 
-   if( gEn > 3.0 && gEta > 1.6 && gEn < 210.) //fillThree("PFClusterSum_HCALovrECAL_gen_eta_energy", gEn, gEta, (totalHcalE/totalEME) );
+   //if( gEn > 3.0 && gEta > 1.6 && gEn < 210.) //fillThree("PFClusterSum_HCALovrECAL_gen_eta_energy", gEn, gEta, (totalHcalE/totalEME) );
    
-   totalCaloEnergy += totalEME + totalHcalE;
-   std::cout<<"total PFCluster energy equals "<< totalCaloEnergy <<std::endl;
+   //totalCaloEnergy += totalEME + totalHcalE;   //no need for totalHcalE while all PFClusters are saved to particleFlowClusterHGCEE collection
+   totalCaloEnergy += totalEME;
+   totalCaloPt += totalEMPt;
+
+   //std::cout<<"total PFCluster energy equals "<< totalCaloEnergy <<std::endl;
+
+
 
    //This code checks that a plot of PFRecHit z position shows a few mm gap between Si layers in HGCEE and HEF, and between scintillator layers in HEB
 
+   /*
    edm::Handle<std::vector<reco::PFRecHit>> EEPFRecHits;
    iEvent.getByLabel("particleFlowRecHitHGCEE","", EEPFRecHits);
 
@@ -667,6 +725,10 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    	   fill("HEB_PFRecHit_energy", HEBPFRecHitIt->energy() );
    }//end loop over PFRecHit objects in HEB 
 
+   */
+
+
+
    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
    //HGC PFRecHit work
    //need the x, y, and z position of rechits within selected PFClusters
@@ -678,6 +740,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    //5. use the PFRecHits associated with these PFClusters to determine the event energy fraction as a function of lambda
    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+   /*
    //factors to convert rechit energy in GeV to a number of MIPs
    double MipsToGeV_EE = 0.000055;
    double MipsToGeV_HEF = 0.000085;
@@ -687,6 +750,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    double HEBInverseMipToGeVCorrection = 1.0;
 
 
+   //UPDATE THIS!! there are an additional 12 layers due to segmentation of HEB
    double HGCLayerBoundaries[] = {320.5,321.5,322.5,323.5,324,325,325.5,326.5,327.5,328.5,329,330,331,332,333,334,334.5,336,336.5,337.5,338.5,339.5,340.5,342,343,344,345.5,346.5,347.5,348.5,355,360,364.5,369.5,374,379,384,388.5,393.5,398,403,408,421.5,426,430.5,434.5,439,443.5,445,447.5,452,456.5,461,465,469.5,474,478,482.5,487,491,495.5,500,504.5,508.5,513,517.5,521.5};    //approximate distance in cm between IP and face of each sensitive layer which is furthest from IP 
    
    double HGCLambdaBoundaries[54] = {0.01,0.06,0.1,0.12,0.16,0.18,0.22,0.24,0.28,0.3,0.34,0.37,0.42,0.47,0.5,0.53,0.58,0.61,0.66,0.69,0.74,0.79,0.85,0.9,0.96,1.01,1.07,1.12,1.18,1.23,1.57,1.82,2.07,2.32,2.57,2.82,3.07,3.32,3.57,3.82,4.07,4.32,4.53,4.74,4.95,5.16,5.37,5.58,5.79,6,6.21,6.42,6.63,6.84};       //amount of material in front of every sensitive layer of HGC in terms of hadronic interaction lengths 
@@ -701,6 +765,8 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    //these weights are also stored in particleFlowClusterHGCEE_cfi.py (for EE portion) and particleFlowClusterHGCHEF_cfi.py (for HEF and HEB portions)
    std::vector<double> reWeightingFactors;
 
+   //UPDATE THIS!! this should run from i=0 up to i=65
+   //See Maksat's presentation in LPC phase 2 meeting for correct HGCEE weighting factors
    for(unsigned int i=0; i<54 ; i++){
 	   caloRecHitEnergyVsLayer.push_back(0.0);
 	   energyFrxnVsLayer.push_back(0.0);
@@ -800,9 +866,9 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
    }//loop over HGCHEB PFClusters
 
-   std::cout<<"total rechit energy equals "<< totalCaloRecHitEnergy << " GeV" <<std::endl;
+   //std::cout<<"total rechit energy equals "<< totalCaloRecHitEnergy << " GeV" <<std::endl;
 
-   fill("RecHitCalib", (totalCaloRecHitEnergy - gEn)/gEn);
+   //fill("RecHitCalib", (totalCaloRecHitEnergy - gEn)/gEn);
 
    for(int i=0; i<54; i++){
 	   //fill energyFrxnVsLayer vector 
@@ -872,53 +938,84 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    caloRecHitEnergyVsLayer.clear();
    totalCaloRecHitEnergy = 0;
 
+   */
 
+
+
+   double zeroExact = 0.0;
+
+   //this code prints out the numerical values needed to make plots of energy and pT resolution and linearity 
    for(unsigned int i=0; i< binList.size() ; i++){
 	   int m = i+1;
 
 	   if(gEn >= binVals[i] && gEn <= binVals[m]){
  
 		   // USE THIS for fixed energy and eta chgd pion gun samples
-		   /*
+		   /**/
 		   if(gEta < 1.52){
 			   std::cout<<"KEEP NO ETABIN_"<< 0 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalCaloEnergy - gEn )/gEn) <<std::endl;
+			   std::cout<<"KEEP PT ETABIN_"<< 0 << " EGENBIN_" << i << " " << gPt <<" "<< ( (totalCaloPt - gPt )/gPt) <<std::endl;
+
 			   //std::cout<<"KEEP YES ETABIN_"<< 0 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalTrackAndCaloEnergy  - gEn )/gEn) <<std::endl;
 
 		   }
 
-		   if(gEta > 1.52 && gEta < 1.77){
+		   /**/
+		   if(gEta > 1.52 && gEta < 1.63){
 			   std::cout<<"KEEP NO ETABIN_"<< 1 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalCaloEnergy - gEn )/gEn) <<std::endl;
+			   std::cout<<"KEEP PT ETABIN_"<< 1 << " EGENBIN_" << i << " " << gPt <<" "<< ( (totalCaloPt - gPt )/gPt) <<std::endl;
+			   fill("ChgdPiAnyE_1", gEn);
+			   if(totalCaloEnergy > zeroExact) fill("ChgdPiSomeE_1", gEn);
+
 			   //std::cout<<"KEEP YES ETABIN_"<< 1 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalTrackAndCaloEnergy - gEn )/gEn) <<std::endl;
 
 		   }
 
-		   if(gEta > 1.77 && gEta < 2.02){
+		   if(gEta > 1.63 && gEta < 1.93){
 			   std::cout<<"KEEP NO ETABIN_"<< 2 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalCaloEnergy - gEn )/gEn) <<std::endl;
+			   std::cout<<"KEEP PT ETABIN_"<< 2 << " EGENBIN_" << i << " " << gPt <<" "<< ( (totalCaloPt - gPt )/gPt) <<std::endl;
+			   fill("ChgdPiAnyE_2", gEn);
+			   if(totalCaloEnergy > zeroExact) fill("ChgdPiSomeE_2", gEn);
+
+
+
 			   //std::cout<<"KEEP YES ETABIN_"<< 2 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalTrackAndCaloEnergy - gEn )/gEn) <<std::endl;
 
 		   }
 
-
-		   if(gEta > 2.02 && gEta < 2.27){
+		   if(gEta > 1.93 && gEta < 2.23){
 			   std::cout<<"KEEP NO ETABIN_"<< 3 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalCaloEnergy - gEn )/gEn) <<std::endl;
+			   std::cout<<"KEEP PT ETABIN_"<< 3 << " EGENBIN_" << i << " " << gPt <<" "<< ( (totalCaloPt - gPt )/gPt) <<std::endl;
+			   fill("ChgdPiAnyE_3", gEn);
+			   if(totalCaloEnergy > zeroExact) fill("ChgdPiSomeE_3", gEn);
+
+
 			   //std::cout<<"KEEP YES ETABIN_"<< 3 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalTrackAndCaloEnergy - gEn )/gEn) <<std::endl;
 
 		   }
 
-
-		   if(gEta > 2.27 && gEta < 2.52){
+		   if(gEta > 2.23 && gEta < 2.53){
 			   std::cout<<"KEEP NO ETABIN_"<< 4 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalCaloEnergy - gEn )/gEn) <<std::endl;
+			   std::cout<<"KEEP PT ETABIN_"<< 4 << " EGENBIN_" << i << " " << gPt <<" "<< ( (totalCaloPt - gPt )/gPt) <<std::endl;
+			   fill("ChgdPiAnyE_4", gEn);
+			   if(totalCaloEnergy > zeroExact) fill("ChgdPiSomeE_4", gEn);
+
+
 			   //std::cout<<"KEEP YES ETABIN_"<< 4 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalTrackAndCaloEnergy - gEn )/gEn) <<std::endl;
 
 		   }
 
-
-		   if(gEta > 2.52 && gEta < 2.92){
+		   if(gEta > 2.53 && gEta < 2.83){
 			   std::cout<<"KEEP NO ETABIN_"<< 5 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalCaloEnergy - gEn )/gEn) <<std::endl;
+			   std::cout<<"KEEP PT ETABIN_"<< 5 << " EGENBIN_" << i << " " << gPt <<" "<< ( (totalCaloPt - gPt )/gPt) <<std::endl;
+			   fill("ChgdPiAnyE_5", gEn);
+			   if(totalCaloEnergy > zeroExact) fill("ChgdPiSomeE_5", gEn);
+
+
 			   //std::cout<<"KEEP YES ETABIN_"<< 5 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalTrackAndCaloEnergy - gEn )/gEn) <<std::endl;
 
 		   }
-		   */
+		   /**/
 
 		   break;	//leave for loop over unsigned int i
 	   }//end if(gEn)
@@ -952,11 +1049,13 @@ void
 singleHadEvsLayerStudy::endJob() 
 {
 
+	/*
 	for(unsigned int j=0; j<finalEnergyFrxns.size();j++){
 		//std::cout<<"finalEnergyFrxnBinNums element # "<<j<<" equals "<< finalEnergyFrxnBinNums[j] <<std::endl;
 		//std::cout<<"finalEnergyFrxns element # "<<j<<" equals "<< finalEnergyFrxns[j] <<std::endl;
 		set1DBinContents("FinalEnergyFrxnVsLambda", finalEnergyFrxnBinNums[j], finalEnergyFrxns[j]);
 	}
+	*/
 
 	/*
 	for(int e=0; e<getXBins("All_PFRecHit_z") ; e++){
@@ -966,6 +1065,65 @@ singleHadEvsLayerStudy::endJob()
 
 	}
 	*/
+
+
+
+	///////////////////////////////////////////////////////
+	//code to make charged pion reconstruction efficiency plots
+	//execute the same set of code 5 times for 5 different gen eta values
+	/**/
+	std::vector<std::string> etaBins;
+	etaBins.push_back("1");
+	etaBins.push_back("2");
+	etaBins.push_back("3");
+	etaBins.push_back("4");
+	etaBins.push_back("5");
+
+	for(unsigned int g=0; g<etaBins.size() ; g++){
+		//code that determines the pi+ reco efficiency for events with one particular gen eta value, like 1.6 or 1.9 (approx)
+		std::vector<int> genEnergyBins;		//tracks the gen energy bins with nonzero bin contents in ChgdPiSomeE and ChgdPiAnyE
+		std::vector<double> someE;			//ith entry in this vector corresponds to the ith element in genEnergyBins
+		std::vector<double> anyE;			//ith entry in this vector corresponds to the ith element in genEnergyBins
+
+		double zero = 0.0;
+		std::string anyEHistoName = "ChgdPiAnyE_"+etaBins[g];
+		std::cout<<"anyEHistoName contains "<< anyEHistoName << std::endl;
+		std::string someEHistoName = "ChgdPiSomeE_"+etaBins[g];
+		int numBinsX = getXBins(anyEHistoName);
+		for(int n=1; n <= numBinsX; n++){
+			//loop over all x axis bins, which correspond to the generator pi+ energy in each event
+			//find bins with at least 1 entry in "ChgdPiAnyE_NUM", and save the bin content to the appropriate vector
+
+			if( get1DBinContents(anyEHistoName, n) > zero ){
+				genEnergyBins.push_back(n);
+
+				//for any element i anyE[i] >= someE[i]
+				anyE.push_back( get1DBinContents(anyEHistoName, n) );
+				someE.push_back( get1DBinContents(someEHistoName, n) );
+			}
+
+		}//end loop over bins in ChgdPiAnyE_NUM
+
+		std::string chgdPiEnEffHistoName = "ChgdPiEnEfficiency_"+etaBins[g];
+		std::cout<<"chgdPiEnEffHistoName contains "<< chgdPiEnEffHistoName << std::endl;
+		for(unsigned int j=0; j< genEnergyBins.size() ; j++){
+			//loop over all elements in genEnergyBins, set ChgdPiEnEfficiency_NUM bin contents
+			double recoEnEff = ( someE[j]/anyE[j] );
+			set1DBinContents(chgdPiEnEffHistoName, genEnergyBins[j], recoEnEff);
+
+		}//end loop over elements in genEnergyBins vector 
+
+		anyE.clear();
+		someE.clear();
+		genEnergyBins.clear();
+
+	}//end loop over etaBins
+	/**/
+
+
+
+
+
 
 	//makeAndSaveSingle3DHisto("#Delta #eta and #Delta #phi between PFCandidate objects and gen pi+ objects as fxn of PFCandidate energy; #Delta #phi (rad); #Delta #eta; PFCand energy (GeV)","chgdPi_pT50_NoPU_deltaR_btwn_PFCand_and_gen_chgd_pion_vs_PFCand_energy","24","","PFCandidate_deltaR_energy", false);
 
