@@ -414,11 +414,12 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 		  //using the rechit ref named oneRechit, compute the true energy of the rechit (taking the absorber weight into account) and return this true energy
 		  if(hgcRegion(oneRechit) == 0){
 			  //rechit is in HGCEE
-			  double eta = (oneRechit->position()).eta();
+			  //double eta = (oneRechit->position()).eta();
 			  double uncorrMips = (oneRechit->energy())/(0.000055);
-			  double effMipsToInvGeV = (82.8)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
+			  //double effMipsToInvGeV = (82.8)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
 			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)]*uncorrMips;
-			  return (corrMips/effMipsToInvGeV);
+			  //return (corrMips/effMipsToInvGeV);
+			  return corrMips;
 		  }
 		  return 0;
 
@@ -428,11 +429,12 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 		  //using the rechit reference named oneRechit, compute the true energy of the rechit (taking the absorber weight into account) and return this true energy
 		  if(hgcRegion(oneRechit) == 1){
 			  //rechit is in HGCHEF
-			  double eta = (oneRechit->position()).eta();
+			  //double eta = (oneRechit->position()).eta();
 			  double uncorrMips = (oneRechit->energy())/(0.000085);
-			  double effMipsToInvGeV = (1.0)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
+			  //double effMipsToInvGeV = (1.0)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
 			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)]*uncorrMips;
-			  return (corrMips/effMipsToInvGeV);
+			  //return (corrMips/effMipsToInvGeV);
+			  return corrMips;
 		  }
 		  return 0;
 
@@ -443,11 +445,12 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 		  //using the rechit reference named oneRechit, compute the true energy of the rechit (taking the absorber weight into account) and return this true energy
 		  if(hgcRegion(oneRechit) == 2){
 			  //rechit is in HGCHEB
-			  double eta = (oneRechit->position()).eta();
+			  //double eta = (oneRechit->position()).eta();
 			  double uncorrMips = (oneRechit->energy())/(0.001498);
-			  double effMipsToInvGeV = (1.0)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
+			  //double effMipsToInvGeV = (1.0)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
 			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)]*uncorrMips;
-			  return (corrMips/effMipsToInvGeV);
+			  //return (corrMips/effMipsToInvGeV);
+			  return corrMips;
 		  }
 		  return 0;
 
@@ -634,7 +637,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
  
    double gEn =0;	//energy of a generator chgd pion
    float gEta = 0;
-   //float gPhi = 0;	//eta and phi of generator chgd pion
+   float gPhi = 0;	//eta and phi of generator chgd pion
    double gPt = 0;
    //int numGenParticles = 0;	//keeps track of the total number of gen lvl particles in the event
 
@@ -643,7 +646,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   if(genIt->pdgId() == 211){
 		  //if the genIt pdgId is +211 then the particle is a pi+
 		  gEta = genIt->eta();
-		  //gPhi = genIt->phi();
+		  gPhi = genIt->phi();
 		  gEn = (genIt->pt())*(TMath::CosH(genIt->eta()));
 		  gPt = genIt->pt();
 	   }
@@ -680,6 +683,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    double totalCaloEnergy = 0.;
    double totalCaloPt = 0.;
    double minEnergy = 0.10;   //in GeV
+   double maxClstEnergy = 0.;	//in GeV
    //double boostHEBEnergy = 0.;  //energy threshold for PFClusters in HEB
    //double totalEME = 0.;
    //double totalEMPt = 0.;
@@ -711,12 +715,23 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    //double maxEEEnergy = 0;
    //double maxHEFEnergy = 0;
 
-   //double calibEERechitEnergy(const reco::PFRecHitRef& oneRechit)
-   //double calibHEFRechitEnergy(const reco::PFRecHitRef& oneRechit)
-   //double calibHEBRechitEnergy(const reco::PFRecHitRef& oneRechit)
   
    for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
 	   if(clstEE->energy() <= minEnergy) continue;
+	   double deltaEta = (clstEE->eta()) - gEta;
+	   double deltaPhi = (clstEE->phi()) - gPhi;
+	   double dR = TMath::Sqrt(deltaPhi*deltaPhi + deltaEta*deltaEta);
+	   if(dR > 0.3) continue;
+	   if(clstEE->energy() > maxClstEnergy){
+		  maxClstEnergy = 0;
+		  maxClstEnergy += clstEE->energy();
+	   }
+	   
+   }//end loop over all PFClusters in the event to find the highest energy PFCluster matched to the generator particle
+
+ 
+   for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
+	   if(clstEE->energy() != maxClstEnergy) continue;
 	   const std::vector<reco::PFRecHitFraction> pfRechitFractions = clstEE->recHitFractions();
 	   for(unsigned int i=0; i<pfRechitFractions.size() ;i++){
 		   //I can freely call calibEERechitEnergy(ref), calibHEFRechitEnergy(ref), calibHEBRechitEnergy(ref) because these functions will return
@@ -729,6 +744,11 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
    }//end loop over all PFClusters in the event
 
+   //std::cout<<"firstEME equals "<< firstEME << " GeV" <<std::endl;
+   //std::cout<<"firstHEFE equals "<< firstHEFE << " GeV" <<std::endl;
+   //std::cout<<"firstHEBE equals "<< firstHEBE << " GeV" <<std::endl;
+
+   //applying these equations converts the MIP energy into GeV
    double rescaledEME = ( (0.2372)*(firstEME) - 0.2215 );
    double rescaledHEFE = ( (0.1847)*(firstHEFE) + 0.0818 );
    double rescaledHEBE = ( (0.2429)*(firstHEBE) + 0.58 );
@@ -741,6 +761,10 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    if(rescaledHEBE > 0 ){
 	   secondHEBE += rescaledHEBE;
    }
+
+   //std::cout<<"secondEME equals "<< secondEME << " GeV" <<std::endl;
+   //std::cout<<"secondHEFE equals "<< secondHEFE << " GeV" <<std::endl;
+   //std::cout<<"secondHEBE equals "<< secondHEBE << " GeV" <<std::endl;
 
    totalCaloEnergy += secondEME + (1.258)*(secondHEFE + (1.101)*(secondHEBE) );
    absorberWeights.clear();	//clears all contents out of absorberWeights vector, resets # of elements to zero
