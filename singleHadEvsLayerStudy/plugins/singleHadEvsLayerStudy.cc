@@ -374,18 +374,95 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 
       }//end makeAndSaveSingle3DHisto(...)
 
-	  double calibrateRecHitEnergy(double eta, double rechitEnergy, double layerWeight, double mipInGeV, double mipEnergyScaling){
-		  //calibrate the energy of a rechit based on the layer it belongs to and its eta position
-		  //return the calibrated energy value
-		  //the sum of all calibrated rechit energies should equal the PFCluster energy from which these rechits were selected
-		  //mipInGeV should correspond to EE, HEF, or HEB, and should be between 50 and 100 x 10^-6 for EE and HEF, and near 1500 x 10^-6 for HEB
-		  double mips = rechitEnergy/mipInGeV;
-		  double effMipsToInvGeV = mipEnergyScaling/(1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
-		  double weightCorrectedEnergy = layerWeight*mips;
+	  // 0 = HGCEE, 1 = HGCHEF, 2 = HGCHEB, 3 = rechit is not in HGC
+	  int hgcRegion(const reco::PFRecHitRef& oneRechit){
+		  DetId idOfRechit = oneRechit->detId();
+		  //if the detId of oneRechit belongs to a forward detector, return an int which indicates the parent detector and sub-detector region (like HGC EE)
+		  if(idOfRechit.det() == DetId::Forward){
+			  if(idOfRechit.subdetId() == ForwardSubdetector::HGCEE) return 0;
+			  if(idOfRechit.subdetId() == ForwardSubdetector::HGCHEF) return 1;
+			  if(idOfRechit.subdetId() == ForwardSubdetector::HGCHEB) return 2;
 
-		  return (weightCorrectedEnergy/effMipsToInvGeV);
+		  }
+		  
+		  return 3;	//oneRechit does not correspond to any detId in HGC
 
-	  }
+	  }//end hgcRegion( reco::PFRecHitRef object )
+
+	  int hgcLayerNumber(const reco::PFRecHitRef& oneRechit){
+		  //first determine which region of HGC this rechit belongs in - EE, HEF, or HEB
+		  int region = hgcRegion(oneRechit);
+		  
+		  //now return the layer number where the rechit is located in HGC
+		  //if the rechit belongs to HEF or HEB, add 30 to the layer number before returning the layer number 
+		  if(region == 0){
+			  //oneRechit is in EE
+			  return HGCEEDetId(oneRechit->detId()).layer();
+		  }
+		  if(region == 1 || region == 2){
+			  //oneRechit is in HEF or HEB
+			  return (30 + HGCHEDetId(oneRechit->detId()).layer() );
+		  }
+
+		  return -1;	//oneRechit is not in HGC
+
+	  }//end hgcLayerNumber(reco::PFRecHitRef object)
+
+	  std::vector<double> absorberWeights;
+
+	  double calibEERechitEnergy(const reco::PFRecHitRef& oneRechit){
+		  //using the rechit ref named oneRechit, compute the true energy of the rechit (taking the absorber weight into account) and return this true energy
+		  if(hgcRegion(oneRechit) == 0){
+			  //rechit is in HGCEE
+			  double eta = (oneRechit->position()).eta();
+			  double uncorrMips = (oneRechit->energy())/(0.000055);
+			  double effMipsToInvGeV = (82.8)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
+			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)]*uncorrMips;
+			  return (corrMips/effMipsToInvGeV);
+		  }
+		  return 0;
+
+	  }//end calibEERechitEnergy(reco::PFRecHitRef object)
+
+	  double calibHEFRechitEnergy(const reco::PFRecHitRef& oneRechit){
+		  //using the rechit reference named oneRechit, compute the true energy of the rechit (taking the absorber weight into account) and return this true energy
+		  if(hgcRegion(oneRechit) == 1){
+			  //rechit is in HGCHEF
+			  double eta = (oneRechit->position()).eta();
+			  double uncorrMips = (oneRechit->energy())/(0.000085);
+			  double effMipsToInvGeV = (1.0)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
+			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)]*uncorrMips;
+			  return (corrMips/effMipsToInvGeV);
+		  }
+		  return 0;
+
+	  }//end calibHEFRechitEnergy(reco::PFRecHitRef object)
+
+
+	  double calibHEBRechitEnergy(const reco::PFRecHitRef& oneRechit){
+		  //using the rechit reference named oneRechit, compute the true energy of the rechit (taking the absorber weight into account) and return this true energy
+		  if(hgcRegion(oneRechit) == 2){
+			  //rechit is in HGCHEB
+			  double eta = (oneRechit->position()).eta();
+			  double uncorrMips = (oneRechit->energy())/(0.001498);
+			  double effMipsToInvGeV = (1.0)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
+			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)]*uncorrMips;
+			  return (corrMips/effMipsToInvGeV);
+		  }
+		  return 0;
+
+	  }//end calibHEBRechitEnergy(reco::PFRecHitRef object)
+
+	  double calibRechitPt(const reco::PFRecHitRef& oneRechit){
+		  double eta = (oneRechit->position()).eta();
+		  int type = hgcRegion(oneRechit);
+		  if(type==0) return (calibEERechitEnergy(oneRechit)/std::cosh(eta) );
+		  if(type==1) return (calibHEFRechitEnergy(oneRechit)/std::cosh(eta) );
+		  if(type==2) return (calibHEBRechitEnergy(oneRechit)/std::cosh(eta) );
+		  return 0;
+
+	  }//end calibRechitPt(reco::PFRecHitRef object)
+
 
 	  std::vector<double> finalEnergyFrxns;  //public
 	  std::vector<int> finalEnergyFrxnBinNums;  //public
@@ -400,7 +477,7 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 	  std::map<std::string,TH1D*> hists_;
 	  std::map<std::string,TH2D*> histsTwo_;
 	  std::map<std::string,TH3D*> histsThree_;
-
+	  
 
       //virtual void beginRun(edm::Run const&, edm::EventSetup const&) override;
       //virtual void endRun(edm::Run const&, edm::EventSetup const&) override;
@@ -534,8 +611,18 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
       binList.push_back( std::to_string(i) );
       //binVals.push_back(start + i*multiplier);
    }
- 
- 
+
+   for(int q=0; q<54; q++){
+	   //fill the absorberWeights vector with the correct weights
+	   if(q==0) absorberWeights.push_back(0.010);
+	   if(q >= 1 && q <= 10) absorberWeights.push_back(0.036);
+	   if(q >= 11 && q <= 20) absorberWeights.push_back(0.043);
+	   if(q >= 21 && q <= 29) absorberWeights.push_back(0.056);
+	   if(q==30) absorberWeights.push_back(0.338);
+	   if(q >= 31 && q <= 41) absorberWeights.push_back(0.273);
+	   if( q >= 42 && q <= 53) absorberWeights.push_back(0.475);
+   }
+
    //////////////////////////////////////////////////////////////////////////
    //get the energy of the generator lvl pi+
    //plot E_gen
@@ -587,20 +674,34 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    */
 
 
+   //FORGET about calculating delta p_T/p_T for now
+   
    //double totalTrackAndCaloEnergy = 0.;
    double totalCaloEnergy = 0.;
    double totalCaloPt = 0.;
    double minEnergy = 0.10;   //in GeV
    //double boostHEBEnergy = 0.;  //energy threshold for PFClusters in HEB
-   double totalEME = 0.;
-   double totalEMPt = 0.;
+   //double totalEME = 0.;
+   //double totalEMPt = 0.;
    //double totalHcalE = 0.;
+   //double totalHcalPt = 0.;
    //double HEBEnergy = 0.;
+
+   double firstEME = 0;	//EM energy which has been weighted according to the amount of absorber material in front of each sensitive layer
+   double secondEME = 0;	//EM energy which has been weighted based on absorber material, and rescaled based on EM shower energy
+
+   double firstHEFE = 0;	//HEF energy which has been weighted according to the amount of absorber material in front of each sensitive layer
+   double secondHEFE = 0;	//HEF energy which has been weighted based on absorber material, and rescaled based on EM shower energy
+
+   double firstHEBE = 0;	//HEB energy which has been weighted according to the amount of absorber material in front of each sensitive layer
+   double secondHEBE = 0;	//HEB energy which has been weighted based on absorber material, and rescaled based on EM shower energy
+
+
 
    //(PFCluster object).pt() and (PFCluster object).energy() both return
    //double values
    //pt() calculates the cluster PT assuming the particle that deposited the
-   //energy is massless (so pT = energy*cosh(eta) )
+   //energy is massless (so pT = energy/cosh(eta) )
    //energy() returns the cluster energy that has been calibrated using
    //Pedro's regressions (HGCEE calibrated with electrons, HGCHE calibrated
    //with neutral K_longs)
@@ -609,20 +710,40 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    //double maxHEBEnergy = 0;
    //double maxEEEnergy = 0;
    //double maxHEFEnergy = 0;
-    
-   
+
+   //double calibEERechitEnergy(const reco::PFRecHitRef& oneRechit)
+   //double calibHEFRechitEnergy(const reco::PFRecHitRef& oneRechit)
+   //double calibHEBRechitEnergy(const reco::PFRecHitRef& oneRechit)
+  
    for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
 	   if(clstEE->energy() <= minEnergy) continue;
-	   totalEME += clstEE->energy();
-	   totalEMPt += clstEE->pt();
-	   //fillThree("EEPFCluster_deltaR_energy", clstEE->phi() - gPhi, clstEE->eta() - gEta, clstEE->energy() );
-	   /*
-	   if(clstEE->energy() > maxEEEnergy){
-		   maxEEEnergy = 0;
-		   maxEEEnergy += clstEE->energy();
-	   }
-	   */
+	   const std::vector<reco::PFRecHitFraction> pfRechitFractions = clstEE->recHitFractions();
+	   for(unsigned int i=0; i<pfRechitFractions.size() ;i++){
+		   //I can freely call calibEERechitEnergy(ref), calibHEFRechitEnergy(ref), calibHEBRechitEnergy(ref) because these functions will return
+		   //zero if the rechit does not belong to the corresponding HGC subdetector
+		   firstEME += (pfRechitFractions[i].fraction() )*calibEERechitEnergy(pfRechitFractions[i].recHitRef() );
+		   firstHEFE += (pfRechitFractions[i].fraction() )*calibHEFRechitEnergy(pfRechitFractions[i].recHitRef() );
+		   firstHEBE += (pfRechitFractions[i].fraction() )*calibHEBRechitEnergy(pfRechitFractions[i].recHitRef() );
+
+	   }//end loop over pfRechitFractions
+
+   }//end loop over all PFClusters in the event
+
+   double rescaledEME = ( (0.2372)*(firstEME) - 0.2215 );
+   double rescaledHEFE = ( (0.1847)*(firstHEFE) + 0.0818 );
+   double rescaledHEBE = ( (0.2429)*(firstHEBE) + 0.58 );
+   if(rescaledEME > 0 ){
+	   secondEME += rescaledEME;
    }
+   if(rescaledHEFE > 0 ){
+	   secondHEFE += rescaledHEFE;
+   }
+   if(rescaledHEBE > 0 ){
+	   secondHEBE += rescaledHEBE;
+   }
+
+   totalCaloEnergy += secondEME + (1.258)*(secondHEFE + (1.101)*(secondHEBE) );
+   absorberWeights.clear();	//clears all contents out of absorberWeights vector, resets # of elements to zero
 
    /*
    for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
@@ -685,9 +806,6 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
    //if( gEn > 3.0 && gEta > 1.6 && gEn < 210.) //fillThree("PFClusterSum_HCALovrECAL_gen_eta_energy", gEn, gEta, (totalHcalE/totalEME) );
    
-   //totalCaloEnergy += totalEME + totalHcalE;   //no need for totalHcalE while all PFClusters are saved to particleFlowClusterHGCEE collection
-   totalCaloEnergy += totalEME;
-   totalCaloPt += totalEMPt;
 
    //std::cout<<"total PFCluster energy equals "<< totalCaloEnergy <<std::endl;
 
@@ -1042,6 +1160,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 void 
 singleHadEvsLayerStudy::beginJob()
 {
+
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
