@@ -64,6 +64,13 @@
 #include "DataFormats/HGCRecHit/interface/HGCRecHitCollections.h"
 #include "DataFormats/HGCRecHit/interface/HGCRecHitComparison.h"
 
+#include "SimDataFormats/CaloHit/interface/PCaloHit.h"
+#include "SimDataFormats/CaloHit/interface/PCaloHitContainer.h"
+#include "SimDataFormats/Track/interface/SimTrack.h"
+#include "SimDataFormats/Track/interface/SimTrackContainer.h"
+#include "SimDataFormats/Vertex/interface/SimVertex.h"
+#include "SimDataFormats/Vertex/interface/SimVertexContainer.h"
+
 
 //this GenParticle.h will allow me to call pdgId(), status(), and other methods on reco::GenParticle objects
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
@@ -466,6 +473,44 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 
 	  }//end calibRechitPt(reco::PFRecHitRef object)
 
+	  math::XYZVectorD getInteractionPosition(const reco::GenParticle & genp,
+			  edm::Handle<edm::SimTrackContainer> &SimTk,
+			  edm::Handle<edm::SimVertexContainer> &SimVtx,
+			  int barcode)
+	  {
+		  for (const SimTrack &simtrack : *SimTk)
+		  {
+			  if (simtrack.genpartIndex()!=barcode) continue;
+			  int simid = simtrack.trackId();
+			  for (const SimVertex &simvertex : *SimVtx)
+			  {
+				  //for neutrals only one vertex
+				  if(genp.charge()==0)
+				  {
+					  if (simvertex.parentIndex()!=simid) continue;
+					  return math::XYZVectorD(simvertex.position());
+				  }
+				  else
+				  {
+					  uint32_t tkMult(0);
+					  for (const SimTrack &dausimtrack : *SimTk)
+					  {
+						  int dausimid=dausimtrack.trackId();
+						  if(dausimid==simid) continue;
+						  unsigned int vtxIdx=dausimtrack.vertIndex();
+						  if(vtxIdx!=simvertex.vertexId()) continue;
+						  int tkType=abs(dausimtrack.type());
+						  //neglect ionization products
+						  if(tkType==11) continue;
+						  //check for nucleons or nuclei, neutral pions or gammas
+						  if(tkType==2112 || tkType==2212 || tkType>1000000000 || tkType==111 || tkType==22) tkMult++;
+					  }
+					  if(tkMult>2) return math::XYZVectorD(simvertex.position());
+				  }
+			  }
+		  }
+		  return math::XYZVectorD(0,0,0);
+	  }
 
 	  std::vector<double> finalEnergyFrxns;  //public
 	  std::vector<int> finalEnergyFrxnBinNums;  //public
@@ -552,7 +597,8 @@ singleHadEvsLayerStudy::singleHadEvsLayerStudy(const edm::ParameterSet& iConfig)
 
    //histos needed to compute reconstruction efficiency as a fxn of pT and eta
  
-
+   hists_["ClusterMult"]=fs->make<TH1D>("ClusterMult","Number of PFClusters per event for #pi+ #eta_{gen} = 2.2",101,0.,100.);
+ 
    /*
    histsThree_["PFClusterSum_HCALovrECAL_gen_eta_energy"]=fs->make<TH3D>("PFClusterSum_HCALovrECAL_gen_eta_energy","Reco E_HCAL/E_ECAL for Pi+ vs gen Pi+ energy and eta", 100, 0., 210., 15, 1.55, 3.0, 30, 0., 15.);
 
@@ -626,6 +672,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   if( q >= 42 && q <= 53) absorberWeights.push_back(0.475);
    }
 
+
    //////////////////////////////////////////////////////////////////////////
    //get the energy of the generator lvl pi+
    //plot E_gen
@@ -634,11 +681,41 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
    edm::Handle<std::vector<reco::GenParticle> > genPart;
    iEvent.getByLabel("genParticles",genPart);
- 
+
+   //Geant4 collections related to tracker interactions
+   edm::Handle<edm::SimTrackContainer> SimTk;
+   iEvent.getByLabel("g4SimHits",SimTk);
+   edm::Handle<edm::SimVertexContainer> SimVtx;
+   iEvent.getByLabel("g4SimHits",SimVtx);
+   edm::Handle<std::vector<int> > genBarcodes;
+   iEvent.getByLabel("genParticles",genBarcodes); 
+
+   //////////////////////////////////////////////////////////////////////////
+   //check to see if an interaction occured between the hadron and the tracker
+   //if one did, then stop analyzing this event!
+   //////////////////////////////////////////////////////////////////////////
+
+   /*
+   unsigned int max = 0;
+   for(std::vector<reco::GenParticle>::const_iterator genIt=genPart->begin(); genIt != genPart->end(); genIt++){
+	   max += 1;
+   }//end loop over GenParticle
+
+   bool hasInteractionBeforeHGC = false;
+   for(unsigned int igen=0; igen<max ; igen++){
+	   const reco::GenParticle & p = (*genPart)[igen];
+	   math::XYZVectorD hitPos=getInteractionPosition(p,SimTk,SimVtx,genBarcodes->at(igen));
+	   hasInteractionBeforeHGC = ( hitPos.z() < 317);
+	   //if(hasInteractionBeforeHGC) return;	//stop analyzing the event if a tracker interaction occurred
+
+   }
+   */
+
+
    double gEn =0;	//energy of a generator chgd pion
    float gEta = 0;
    float gPhi = 0;	//eta and phi of generator chgd pion
-   double gPt = 0;
+   //double gPt = 0;
    //int numGenParticles = 0;	//keeps track of the total number of gen lvl particles in the event
 
    for(std::vector<reco::GenParticle>::const_iterator genIt=genPart->begin(); genIt != genPart->end(); genIt++){
@@ -648,7 +725,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 		  gEta = genIt->eta();
 		  gPhi = genIt->phi();
 		  gEn = (genIt->pt())*(TMath::CosH(genIt->eta()));
-		  gPt = genIt->pt();
+		  //gPt = genIt->pt();
 	   }
 
    }//end loop over GenParticle
@@ -681,7 +758,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    
    //double totalTrackAndCaloEnergy = 0.;
    double totalCaloEnergy = 0.;
-   double totalCaloPt = 0.;
+   //double totalCaloPt = 0.;
    double minEnergy = 0.10;   //in GeV
    double maxClstEnergy = 0.;	//in GeV
    //double boostHEBEnergy = 0.;  //energy threshold for PFClusters in HEB
@@ -714,10 +791,11 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    //double maxHEBEnergy = 0;
    //double maxEEEnergy = 0;
    //double maxHEFEnergy = 0;
-
-  
+ 
+   float counter = 0;	//count the total number of PFClusters with E > 0.1 GeV in the event
    for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
 	   if(clstEE->energy() <= minEnergy) continue;
+	   counter += 1;
 	   double deltaEta = (clstEE->eta()) - gEta;
 	   double deltaPhi = (clstEE->phi()) - gPhi;
 	   double dR = TMath::Sqrt(deltaPhi*deltaPhi + deltaEta*deltaEta);
@@ -729,6 +807,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   
    }//end loop over all PFClusters in the event to find the highest energy PFCluster matched to the generator particle
 
+   if(gEta > 2.1 && gEta < 2.3) fill("ClusterMult",counter);
  
    for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
 	   if(clstEE->energy() != maxClstEnergy) continue;
@@ -1084,7 +1163,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
 
 
-   double zeroExact = 0.0;
+   //double zeroExact = 0.0;
 
    //this code prints out the numerical values needed to make plots of energy and pT resolution and linearity 
    for(unsigned int i=0; i< binList.size() ; i++){
@@ -1093,7 +1172,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   if(gEn >= binVals[i] && gEn <= binVals[m]){
  
 		   // USE THIS for fixed energy and eta chgd pion gun samples
-		   /**/
+		   /*
 		   if(gEta < 1.52){
 			   std::cout<<"KEEP NO ETABIN_"<< 0 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalCaloEnergy - gEn )/gEn) <<std::endl;
 			   std::cout<<"KEEP PT ETABIN_"<< 0 << " EGENBIN_" << i << " " << gPt <<" "<< ( (totalCaloPt - gPt )/gPt) <<std::endl;
@@ -1101,8 +1180,10 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 			   //std::cout<<"KEEP YES ETABIN_"<< 0 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalTrackAndCaloEnergy  - gEn )/gEn) <<std::endl;
 
 		   }
+		   */
 
-		   /**/
+		  
+		   /*
 		   if(gEta > 1.52 && gEta < 1.63){
 			   std::cout<<"KEEP NO ETABIN_"<< 1 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalCaloEnergy - gEn )/gEn) <<std::endl;
 			   std::cout<<"KEEP PT ETABIN_"<< 1 << " EGENBIN_" << i << " " << gPt <<" "<< ( (totalCaloPt - gPt )/gPt) <<std::endl;
@@ -1157,7 +1238,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 			   //std::cout<<"KEEP YES ETABIN_"<< 5 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalTrackAndCaloEnergy - gEn )/gEn) <<std::endl;
 
 		   }
-		   /**/
+		   */
 
 		   break;	//leave for loop over unsigned int i
 	   }//end if(gEn)
