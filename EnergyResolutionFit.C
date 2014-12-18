@@ -107,7 +107,7 @@ void EnergyResolutionFit()
   std::string deltaEBeginning = "deltaE", eleEnergyBeginning = "eleEnergy", meanDeltaEBeginning = "meanDeltaE/genE", sigmaDeltaEBeginning = "sigmaDeltaE/genE", nMuMuXBeginning = "nMuMuX", alphaMuMuXBeginning = "alphaMuMuX", pdfX1Beginning = "pdfX1", nCanddidateBeginning = "nCanddidate", extendpdf1Beginning = "extendpdf1", totalPdfBeginning = "totPdf";
   //std::string c1Beginning = "c1", c2Beginning = "c2", BkgXPdfBeginning = "BkgXpdf";
 
-  for(unsigned int j=2; j<4; j++){
+  for(unsigned int j=3; j<4; j++){
 
 	  TCanvas * cEnergySpreads = new TCanvas("cES","cES",1500,1100);
 	  cEnergySpreads.Divide(3,3,0.01,0.01);
@@ -181,7 +181,7 @@ void EnergyResolutionFit()
 		  //RooAbsPdf* pdf3 = new RooProdPdf( "pdf3", "pdf3", *pdfX1, *BkgYPdf ) ;
 
 
-		  RooRealVar nCanddidate(nCanddidateName.c_str(), "Number of signal 1 candidates ", 100,  0.0, 5000.0); 
+		  RooRealVar nCanddidate(nCanddidateName.c_str(), "Number of signal 1 candidates ", 100,  0.0, 40000.0); 
 
 		  RooExtendPdf *  extendpdf1 = new RooExtendPdf(extendpdf1Name.c_str(),"Signal 1 PDF",*pdfX1, nCanddidate);
 
@@ -207,12 +207,31 @@ void EnergyResolutionFit()
 
 		  RooFitResult * myfitresult;
 
-		  if(i==0){
-			  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.95,-0.1));
+		  if(j != 5){
+			  if(i==0){
+				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.6,0.2));
+			  }
+			  else if(i==1 || i==2){
+				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.37,0.3));
+			  }
+			  else{
+				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.3,0.3));
 
-		  }
-		  else{
-			  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.8,0.1));
+			  }
+
+		  }//end if(j != 5)
+
+		  if(j==5){
+			  if(i==0){
+				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.65,0.15));
+			  }
+			  else if(i==1 || i==2){
+				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.42,0.25));
+			  }
+			  else{
+				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.35,0.25));
+
+			  }
 
 		  }
 
@@ -372,7 +391,7 @@ void EnergyResolutionFit()
 		  gROOT->SetStyle("Plain");
 
 		  //std::string canvXName = "cx" + genEnergyBins[i];
-		  std::string noTrackEnergySpreadTitle = "No Track E_reco - E_gen / E_gen  gen energy " + genEnergyVals[i] + " gen eta " + etaVals[j]; 
+		  std::string noTrackEnergySpreadTitle = "#DeltaE/E  gen energy " + genEnergyVals[i] + " gen eta " + etaVals[j]; 
 		  //TCanvas * cx=new TCanvas(canvXName.c_str(), canvXName.c_str(),800,600);
 		  cEnergySpreads->cd(i+1);	//need i+1 when initial i = 0.  the first grid is accessed by calling cEnergySpreads->cd(1).
 		  //calling cEnergySpreads->cd(0) ignores the fact that the TCanvas has been divided into a 3x3 grid!
@@ -389,13 +408,13 @@ void EnergyResolutionFit()
 		  frame->Draw(); 
 		 /**/ 
 
-		  /**/
+		  /*
 		  if(i== (numEnergyBins-1) ){
-			  std::string completeNoTrackESpreadOutputFileName = outputPlotDir + partialNoTrackESpreadOutputPlotName + "_chgdPion" + "_EtaBin" + etaBins[j] + ".gif";
+			  std::string completeNoTrackESpreadOutputFileName = outputPlotDir + partialNoTrackESpreadOutputPlotName + "_chgdPion" + "_EtaBin" + etaBins[j] + ".png";
 			  cEnergySpreads->SaveAs(completeNoTrackESpreadOutputFileName.c_str(), "recreate");
 
 		  }
-		  /**/
+		  */
 
 
 
@@ -414,7 +433,7 @@ void EnergyResolutionFit()
 		  //totalPdf.plotOn(framey);
 		  framey->Draw();
 
-		  std::string noTrackGenE = outputPlotDir+partialNoTrackGenEnergyOutput+genEnergyBins[i] + "_EtaBin" + etaBins[j] + ".gif";
+		  std::string noTrackGenE = outputPlotDir+partialNoTrackGenEnergyOutput+genEnergyBins[i] + "_EtaBin" + etaBins[j] + ".png";
 		  cy->SaveAs(noTrackGenE.c_str(), "recreate");
 		  */
 
@@ -486,7 +505,7 @@ void EnergyResolutionFit()
 
   chgdPionEResoNoTrackFirstEtaBin->Draw("AP");
 
-  std::string outFirstGraphName = outputPlotDir + "chgdPionEResoNoTrackFirstEtaBin.gif"; 
+  std::string outFirstGraphName = outputPlotDir + "chgdPionEResoNoTrackFirstEtaBin.png"; 
   cFirst->SaveAs(outFirstGraphName.c_str(),"recreate");
 
 
@@ -510,16 +529,15 @@ void EnergyResolutionFit()
  
   chgdPionELinearityNoTrackFirstEtaBin->Draw("AP");
 
-  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackFirstEtaBin.gif"; 
+  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackFirstEtaBin.png"; 
   cNine->SaveAs(outSecondGraphName.c_str(),"recreate");
 
-  */
 
 
   TCanvas * cSecond = new TCanvas("cSecond","cSecond",1000,1000);
   cSecond->cd();
 
-  TF1 * fitToEtaBinTwoResolution = new TF1("fitToEtaBinTwoResolution","([0]/TMath::Sqrt(x))+[1]",49,501);
+  TF1 * fitToEtaBinTwoResolution = new TF1("fitToEtaBinTwoResolution","([0]/TMath::Sqrt(x))+[1]",29,501);
  
   TGraphErrors * chgdPionEResoNoTrackSecondEtaBin = new TGraphErrors(genEnergyMeans, withoutTrackerFitSigmasSecondEtaBin, genEnergyMeanErrors, withoutTrackerFitSigmaErrorsSecondEtaBin);
   chgdPionEResoNoTrackSecondEtaBin->SetTitle("#pi+ Energy Resolution #eta_{gen} = 1.9; E_{gen} (GeV); #sigma of #DeltaE/E");
@@ -533,7 +551,7 @@ void EnergyResolutionFit()
  
   chgdPionEResoNoTrackSecondEtaBin->Draw("AP");
 
-  std::string outSecondGraphName = outputPlotDir + "chgdPionEResoNoTrackSecondEtaBin.gif"; 
+  std::string outSecondGraphName = outputPlotDir + "chgdPionEResoNoTrackSecondEtaBin.png"; 
   cSecond->SaveAs(outSecondGraphName.c_str(),"recreate");
 
   TCanvas * cTen = new TCanvas("cTen","cTen",1000,1000);
@@ -541,7 +559,7 @@ void EnergyResolutionFit()
   cTen->SetLogx(1);
   cTen->SetLogy(1);
   
-  TF1 * fitToEtaBinTwoLinearity = new TF1("fitToEtaBinTwoLinearity","[0]*x+[1]",49,501);
+  TF1 * fitToEtaBinTwoLinearity = new TF1("fitToEtaBinTwoLinearity","[0]*x+[1]",29,501);
  
   TGraphErrors * chgdPionELinearityNoTrackSecondEtaBin = new TGraphErrors(genEnergyMeans, meanERecoSecondEtaBin, genEnergyMeanErrors, meanERecoErrorSecondEtaBin);
   chgdPionELinearityNoTrackSecondEtaBin->SetTitle("#pi+ Energy Linearity #eta_{gen} = 1.9; E_{gen} (GeV); E_{reco} (GeV)");
@@ -555,14 +573,15 @@ void EnergyResolutionFit()
  
   chgdPionELinearityNoTrackSecondEtaBin->Draw("AP");
 
-  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackSecondEtaBin.gif"; 
+  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackSecondEtaBin.png"; 
   cTen->SaveAs(outSecondGraphName.c_str(),"recreate");
 
+  */
 
   TCanvas * cThird = new TCanvas("cThird","cThird",1000,1000);
   cThird->cd();
 
-  TF1 * fitToEtaBinThreeResolution = new TF1("fitToEtaBinThreeResolution","([0]/TMath::Sqrt(x))+[1]",49,501);
+  TF1 * fitToEtaBinThreeResolution = new TF1("fitToEtaBinThreeResolution","([0]/TMath::Sqrt(x))+[1]",29,501);
 
   TGraphErrors * chgdPionEResoNoTrackThirdEtaBin = new TGraphErrors(genEnergyMeans, withoutTrackerFitSigmasThirdEtaBin, genEnergyMeanErrors, withoutTrackerFitSigmaErrorsThirdEtaBin);
   chgdPionEResoNoTrackThirdEtaBin->SetTitle("#pi+ Energy Resolution #eta_{gen} = 2.2; E_{gen} (GeV); #sigma of #DeltaE/E");
@@ -576,15 +595,15 @@ void EnergyResolutionFit()
   
   chgdPionEResoNoTrackThirdEtaBin->Draw("AP");
 
-  std::string outThirdGraphName = outputPlotDir + "chgdPionEResoNoTrackThirdEtaBin.gif"; 
-  cThird->SaveAs(outThirdGraphName.c_str(),"recreate");
+  //std::string outThirdGraphName = outputPlotDir + "chgdPionEResoNoTrackThirdEtaBin.png"; 
+  //cThird->SaveAs(outThirdGraphName.c_str(),"recreate");
 
   TCanvas * cEleven = new TCanvas("cEleven","cEleven",1000,1000);
   cEleven->cd();
   cEleven->SetLogx(1);
   cEleven->SetLogy(1);
 
-  TF1 * fitToEtaBinThreeLinearity = new TF1("fitToEtaBinThreeLinearity","[0]*x+[1]",49,501);
+  TF1 * fitToEtaBinThreeLinearity = new TF1("fitToEtaBinThreeLinearity","[0]*x+[1]",29,501);
  
   TGraphErrors * chgdPionELinearityNoTrackThirdEtaBin = new TGraphErrors(genEnergyMeans, meanERecoThirdEtaBin, genEnergyMeanErrors, meanERecoErrorThirdEtaBin);
   chgdPionELinearityNoTrackThirdEtaBin->SetTitle("#pi+ Energy Linearity #eta_{gen} = 2.2; E_{gen} (GeV); E_{reco} (GeV)");
@@ -598,8 +617,8 @@ void EnergyResolutionFit()
  
   chgdPionELinearityNoTrackThirdEtaBin->Draw("AP");
 
-  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackThirdEtaBin.gif"; 
-  cEleven->SaveAs(outSecondGraphName.c_str(),"recreate");
+  //std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackThirdEtaBin.png"; 
+  //cEleven->SaveAs(outSecondGraphName.c_str(),"recreate");
 
 
   /*
@@ -620,7 +639,7 @@ void EnergyResolutionFit()
  
   chgdPionEResoNoTrackFourthEtaBin->Draw("AP");
 
-  std::string outFourthGraphName = outputPlotDir + "chgdPionEResoNoTrackFourthEtaBin.gif"; 
+  std::string outFourthGraphName = outputPlotDir + "chgdPionEResoNoTrackFourthEtaBin.png"; 
   cFourth->SaveAs(outFourthGraphName.c_str(),"recreate");
 
 
@@ -643,7 +662,7 @@ void EnergyResolutionFit()
  
   chgdPionELinearityNoTrackFourthEtaBin->Draw("AP");
 
-  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackFourthEtaBin.gif"; 
+  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackFourthEtaBin.png"; 
   cTwelve->SaveAs(outSecondGraphName.c_str(),"recreate");
 
 
@@ -664,7 +683,7 @@ void EnergyResolutionFit()
  
   chgdPionEResoNoTrackFifthEtaBin->Draw("AP");
 
-  std::string outFifthGraphName = outputPlotDir + "chgdPionEResoNoTrackFifthEtaBin.gif"; 
+  std::string outFifthGraphName = outputPlotDir + "chgdPionEResoNoTrackFifthEtaBin.png"; 
   cFifth->SaveAs(outFifthGraphName.c_str(),"recreate");
 
   TCanvas * cThirteen = new TCanvas("cThirteen","cThirteen",1000,1000);
@@ -686,7 +705,7 @@ void EnergyResolutionFit()
  
   chgdPionELinearityNoTrackFifthEtaBin->Draw("AP");
 
-  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackFifthEtaBin.gif"; 
+  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackFifthEtaBin.png"; 
   cThirteen->SaveAs(outSecondGraphName.c_str(),"recreate");
 
   */
@@ -715,7 +734,7 @@ void EnergyResolutionFit()
   chgdPionEnergyResolution->Draw("AP");
   leg3->Draw();
 
-  std::string outMultiGraphName = outputPlotDir + "chgdPionEnergyResolutionOverlayGraphs.gif";
+  std::string outMultiGraphName = outputPlotDir + "chgdPionEnergyResolutionOverlayGraphs.png";
   c3->SaveAs(outMultiGraphName.c_str(),"recreate");
 
   */

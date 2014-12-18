@@ -406,9 +406,15 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 			  //oneRechit is in EE
 			  return HGCEEDetId(oneRechit->detId()).layer();
 		  }
-		  if(region == 1 || region == 2){
-			  //oneRechit is in HEF or HEB
+		  if(region == 1){
+			  //oneRechit is in HEF
 			  return (30 + HGCHEDetId(oneRechit->detId()).layer() );
+		  }
+
+		  if(region == 2){
+			  //oneRechit is in HEB
+			  return (30 + 12 + HGCHEDetId(oneRechit->detId()).layer() );
+	
 		  }
 
 		  return -1;	//oneRechit is not in HGC
@@ -462,6 +468,25 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 		  return 0;
 
 	  }//end calibHEBRechitEnergy(reco::PFRecHitRef object)
+
+	  /*
+	  double calibHEBRechitEnergyLastThreeLayers(const reco::PFRecHitRef& oneRechit){
+		  //using the rechit reference named oneRechit, compute the true energy of the rechit (taking the absorber weight into account) and return this true energy
+		  if(hgcRegion(oneRechit) == 2){
+			  //rechit is in HGCHEB
+			  //double eta = (oneRechit->position()).eta();
+			  double uncorrMips = (oneRechit->energy())/(0.001498);
+			  //double effMipsToInvGeV = (1.0)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
+			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)]*uncorrMips;
+			  //return (corrMips/effMipsToInvGeV);
+			  return corrMips;
+		  }
+		  return 0;
+
+	  }//end calibHEBRechitEnergy(reco::PFRecHitRef object)
+
+	  */
+
 
 	  double calibRechitPt(const reco::PFRecHitRef& oneRechit){
 		  double eta = (oneRechit->position()).eta();
@@ -599,7 +624,10 @@ singleHadEvsLayerStudy::singleHadEvsLayerStudy(const edm::ParameterSet& iConfig)
    //histos needed to compute reconstruction efficiency as a fxn of pT and eta
  
    hists_["ClusterMult"]=fs->make<TH1D>("ClusterMult","Number of PFClusters per event for #pi+ #eta_{gen} = 2.2",101,0.,100.);
- 
+
+   //histos needed to study why constant energy resolution term is so large
+
+
    /*
    histsThree_["PFClusterSum_HCALovrECAL_gen_eta_energy"]=fs->make<TH3D>("PFClusterSum_HCALovrECAL_gen_eta_energy","Reco E_HCAL/E_ECAL for Pi+ vs gen Pi+ energy and eta", 100, 0., 210., 15, 1.55, 3.0, 30, 0., 15.);
 
@@ -702,13 +730,13 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   max += 1;
    }//end loop over GenParticle
 
-   bool hasInteractionBeforeHGC = false;
+   //bool hasInteractionBeforeHGC = false;
    for(unsigned int igen=0; igen<max ; igen++){
 	   const reco::GenParticle & p = (*genPart)[igen];
 	   math::XYZVectorD hitPos=getInteractionPosition(p,SimTk,SimVtx,genBarcodes->at(igen));
 	   fill("firstSimInteraction_Z",hitPos.z() );
-	   hasInteractionBeforeHGC = ( hitPos.z() < 317);
-	   if(hasInteractionBeforeHGC) return;	//stop analyzing the event if a tracker interaction occurred
+	   //hasInteractionBeforeHGC = ( hitPos.z() < 317);
+	   //if(hasInteractionBeforeHGC) return;	//stop analyzing the event if a tracker interaction occurred
 
    }
    /**/
@@ -777,6 +805,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    double secondHEFE = 0;	//HEF energy which has been weighted based on absorber material, and rescaled based on EM shower energy
 
    double firstHEBE = 0;	//HEB energy which has been weighted according to the amount of absorber material in front of each sensitive layer
+   //double firstHEBE_lastThreeLayers = 0;	//total MIP energy in the last 3 layers of HEB
    double secondHEBE = 0;	//HEB energy which has been weighted based on absorber material, and rescaled based on EM shower energy
 
 
@@ -823,11 +852,8 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
 	   }//end loop over pfRechitFractions
 
+	   //firstHEBE_lastThreeLayers;
    }//end loop over all PFClusters in the event
-
-   //std::cout<<"firstEME equals "<< firstEME << " GeV" <<std::endl;
-   //std::cout<<"firstHEFE equals "<< firstHEFE << " GeV" <<std::endl;
-   //std::cout<<"firstHEBE equals "<< firstHEBE << " GeV" <<std::endl;
 
    //applying these equations converts the MIP energy into GeV
    double rescaledEME = ( (0.2372)*(firstEME) - 0.2215 );
@@ -843,9 +869,6 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   secondHEBE += rescaledHEBE;
    }
 
-   //std::cout<<"secondEME equals "<< secondEME << " GeV" <<std::endl;
-   //std::cout<<"secondHEFE equals "<< secondHEFE << " GeV" <<std::endl;
-   //std::cout<<"secondHEBE equals "<< secondHEBE << " GeV" <<std::endl;
 
    totalCaloEnergy += secondEME + (1.258)*(secondHEFE + (1.101)*(secondHEBE) );
    absorberWeights.clear();	//clears all contents out of absorberWeights vector, resets # of elements to zero
