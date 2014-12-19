@@ -60,7 +60,7 @@ do
 
 done
 
-rm refinedNoTrackChgdPionGunEnergies_FixedEAndEta.txt refinedChgdPionGunEnergies_FixedEAndEta.txt
+rm refinedNoTrackChgdPionGunEnergies_FixedEAndEta.txt refinedChgdPionGunEnergies_FixedEAndEta.txt refinedWithTrackChgdPionGunEnergies_FixedEAndEta.txt
 #rm refinedNoTrackChgdPionGunEnergies_FixedPtAndEta.txt refinedWithTrackChgdPionGunEnergies_FixedEAndEta.txt
 
 

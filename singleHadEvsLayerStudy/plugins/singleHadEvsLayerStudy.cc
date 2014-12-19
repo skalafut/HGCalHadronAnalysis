@@ -430,7 +430,7 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 			  //double eta = (oneRechit->position()).eta();
 			  double uncorrMips = (oneRechit->energy())/(0.000055);
 			  //double effMipsToInvGeV = (82.8)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
-			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)]*uncorrMips;
+			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)-1]*uncorrMips;
 			  //return (corrMips/effMipsToInvGeV);
 			  return corrMips;
 		  }
@@ -445,7 +445,7 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 			  //double eta = (oneRechit->position()).eta();
 			  double uncorrMips = (oneRechit->energy())/(0.000085);
 			  //double effMipsToInvGeV = (1.0)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
-			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)]*uncorrMips;
+			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)-1]*uncorrMips;
 			  //return (corrMips/effMipsToInvGeV);
 			  return corrMips;
 		  }
@@ -461,7 +461,7 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 			  //double eta = (oneRechit->position()).eta();
 			  double uncorrMips = (oneRechit->energy())/(0.001498);
 			  //double effMipsToInvGeV = (1.0)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
-			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)]*uncorrMips;
+			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)-1]*uncorrMips;
 			  //return (corrMips/effMipsToInvGeV);
 			  return corrMips;
 		  }
@@ -477,13 +477,13 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 			  //double eta = (oneRechit->position()).eta();
 			  double uncorrMips = (oneRechit->energy())/(0.001498);
 			  //double effMipsToInvGeV = (1.0)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
-			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)]*uncorrMips;
+			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)-1]*uncorrMips;
 			  //return (corrMips/effMipsToInvGeV);
 			  return corrMips;
 		  }
 		  return 0;
 
-	  }//end calibHEBRechitEnergy(reco::PFRecHitRef object)
+	  }//end calibHEBRechitEnergyLastThreeLayers(reco::PFRecHitRef object)
 
 	  */
 
@@ -724,22 +724,20 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    //if one did, then stop analyzing this event!
    //////////////////////////////////////////////////////////////////////////
 
-   /**/
    unsigned int max = 0;
    for(std::vector<reco::GenParticle>::const_iterator genIt=genPart->begin(); genIt != genPart->end(); genIt++){
 	   max += 1;
    }//end loop over GenParticle
 
-   //bool hasInteractionBeforeHGC = false;
+   bool hasInteractionBeforeHGC = false;
    for(unsigned int igen=0; igen<max ; igen++){
 	   const reco::GenParticle & p = (*genPart)[igen];
 	   math::XYZVectorD hitPos=getInteractionPosition(p,SimTk,SimVtx,genBarcodes->at(igen));
 	   fill("firstSimInteraction_Z",hitPos.z() );
-	   //hasInteractionBeforeHGC = ( hitPos.z() < 317);
-	   //if(hasInteractionBeforeHGC) return;	//stop analyzing the event if a tracker interaction occurred
+	   hasInteractionBeforeHGC = ( hitPos.z() < 317);
+	   if(hasInteractionBeforeHGC) return;	//stop analyzing the event if a tracker interaction occurred
 
    }
-   /**/
 
 
    double gEn =0;	//energy of a generator chgd pion
@@ -871,6 +869,10 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
 
    totalCaloEnergy += secondEME + (1.258)*(secondHEFE + (1.101)*(secondHEBE) );
+   
+   double hefEnFrxnThr = 0.8;	//amount of total HGC calo energy which must be reconstructed in HEF
+   double finalRescaledHEFE = (1.258)*(secondHEFE);
+   if( (finalRescaledHEFE/totalCaloEnergy) < hefEnFrxnThr ) return;
    absorberWeights.clear();	//clears all contents out of absorberWeights vector, resets # of elements to zero
 
    /*

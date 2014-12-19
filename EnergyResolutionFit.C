@@ -160,12 +160,16 @@ void EnergyResolutionFit()
 		  //events where genE = 10 appear to be good candidates for crystal ball fits with negative alpha
 		  //events where genE >= 30 appear to be good candidates for gaussian fits
 
-		  if(i==0){
+		  pdfX1 = new RooCBShape(pdfX1Name.c_str(),"",deltaE,meanDeltaE,sigmaDeltaE,alphaMuMuX,nMuMuX);
+
+	  	  /* 
+		  if(i==0 || i==6 || i==7 || i==8){
 			  pdfX1 = new RooCBShape(pdfX1Name.c_str(),"",deltaE,meanDeltaE,sigmaDeltaE,alphaMuMuX,nMuMuX);
 		  }
 		  else{
 			  pdfX1 = new RooGaussian( pdfX1Name.c_str(),"", deltaE , meanDeltaE, sigmaDeltaE);
 		  }
+		  */
 
 		  //std::cout<<"about to declare a RooRealVar called c1"<<std::endl;
 		  ///////////////////////Chebishyev Bkg Polynomial for X//////////////////////
@@ -211,12 +215,17 @@ void EnergyResolutionFit()
 			  if(i==0){
 				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.6,0.2));
 			  }
-			  else if(i==1 || i==2){
-				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.37,0.3));
+			  if(i==1 || i==2){
+				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.5,0.2));
 			  }
-			  else{
-				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.3,0.3));
-
+			  if(i>=3 && i<=6){
+				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.35,0.2));
+			  }
+			  if(i==7){
+				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.27,0.2));
+			  }
+			  if(i==8){
+				  myfitresult = totalPdf.fitTo(*dataSet, Minos(kTRUE), Range(-0.23,0.2));
 			  }
 
 		  }//end if(j != 5)
@@ -391,7 +400,7 @@ void EnergyResolutionFit()
 		  gROOT->SetStyle("Plain");
 
 		  //std::string canvXName = "cx" + genEnergyBins[i];
-		  std::string noTrackEnergySpreadTitle = "#DeltaE/E  gen energy " + genEnergyVals[i] + " gen eta " + etaVals[j]; 
+		  std::string noTrackEnergySpreadTitle = "#DeltaE/E   E_{gen} = " + genEnergyVals[i] + " #eta_{gen} = " + etaVals[j]; 
 		  //TCanvas * cx=new TCanvas(canvXName.c_str(), canvXName.c_str(),800,600);
 		  cEnergySpreads->cd(i+1);	//need i+1 when initial i = 0.  the first grid is accessed by calling cEnergySpreads->cd(1).
 		  //calling cEnergySpreads->cd(0) ignores the fact that the TCanvas has been divided into a 3x3 grid!
@@ -408,13 +417,13 @@ void EnergyResolutionFit()
 		  frame->Draw(); 
 		 /**/ 
 
-		  /*
+		  /**/
 		  if(i== (numEnergyBins-1) ){
-			  std::string completeNoTrackESpreadOutputFileName = outputPlotDir + partialNoTrackESpreadOutputPlotName + "_chgdPion" + "_EtaBin" + etaBins[j] + ".png";
+			  std::string completeNoTrackESpreadOutputFileName = outputPlotDir + partialNoTrackESpreadOutputPlotName + "_chgdPion" + "_EtaBin" + etaBins[j] + "_lrg_HEF_energy_frxn_evts.png";
 			  cEnergySpreads->SaveAs(completeNoTrackESpreadOutputFileName.c_str(), "recreate");
 
 		  }
-		  */
+		  /**/
 
 
 
@@ -591,12 +600,12 @@ void EnergyResolutionFit()
   chgdPionEResoNoTrackThirdEtaBin->SetMarkerSize(1.5);
   chgdPionEResoNoTrackThirdEtaBin->GetYaxis()->SetTitleOffset(1.4);
   chgdPionEResoNoTrackThirdEtaBin->GetXaxis()->SetTitleOffset(1.4);
-  chgdPionEResoNoTrackThirdEtaBin->Fit("fitToEtaBinThreeResolution","R");
+  chgdPionEResoNoTrackThirdEtaBin->Fit("fitToEtaBinThreeResolution","MR");
   
   chgdPionEResoNoTrackThirdEtaBin->Draw("AP");
 
-  //std::string outThirdGraphName = outputPlotDir + "chgdPionEResoNoTrackThirdEtaBin.png"; 
-  //cThird->SaveAs(outThirdGraphName.c_str(),"recreate");
+  std::string outThirdGraphName = outputPlotDir + "chgdPionEResoNoTrackThirdEtaBin_lrg_HEF_energy_frxn_evts.png"; 
+  cThird->SaveAs(outThirdGraphName.c_str(),"recreate");
 
   TCanvas * cEleven = new TCanvas("cEleven","cEleven",1000,1000);
   cEleven->cd();
@@ -611,14 +620,15 @@ void EnergyResolutionFit()
   chgdPionELinearityNoTrackThirdEtaBin->SetMarkerStyle(20);
   chgdPionELinearityNoTrackThirdEtaBin->SetMarkerColor(2);
   chgdPionELinearityNoTrackThirdEtaBin->SetMarkerSize(1.5);
-  chgdPionELinearityNoTrackThirdEtaBin->GetYaxis()->SetTitleOffset(1.4);
-  chgdPionELinearityNoTrackThirdEtaBin->GetXaxis()->SetTitleOffset(1.4);
+  chgdPionELinearityNoTrackThirdEtaBin->GetYaxis()->SetTitleOffset(1.2);
+  chgdPionELinearityNoTrackThirdEtaBin->GetYaxis()->SetTitleSize(0.04);
+  chgdPionELinearityNoTrackThirdEtaBin->GetXaxis()->SetTitleOffset(1.2);
+  chgdPionELinearityNoTrackThirdEtaBin->GetXaxis()->SetTitleSize(0.04);
   chgdPionELinearityNoTrackThirdEtaBin->Fit("fitToEtaBinThreeLinearity","MR");
- 
   chgdPionELinearityNoTrackThirdEtaBin->Draw("AP");
 
-  //std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackThirdEtaBin.png"; 
-  //cEleven->SaveAs(outSecondGraphName.c_str(),"recreate");
+  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackThirdEtaBin_lrg_HEF_energy_frxn_evts.png"; 
+  cEleven->SaveAs(outSecondGraphName.c_str(),"recreate");
 
 
   /*
