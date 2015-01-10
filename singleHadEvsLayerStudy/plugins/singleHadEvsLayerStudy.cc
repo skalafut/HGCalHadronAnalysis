@@ -75,6 +75,8 @@
 //this GenParticle.h will allow me to call pdgId(), status(), and other methods on reco::GenParticle objects
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 
+#include "DataFormats/Math/interface/deltaR.h"
+
 //this PileupSummaryInfo.h will allow me to get PU info from each event
 //#include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 
@@ -469,12 +471,11 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 
 	  }//end calibHEBRechitEnergy(reco::PFRecHitRef object)
 
-	  /*
+	  /**/
 	  double calibHEBRechitEnergyLastThreeLayers(const reco::PFRecHitRef& oneRechit){
 		  //using the rechit reference named oneRechit, compute the true energy of the rechit (taking the absorber weight into account) and return this true energy
-		  if(hgcRegion(oneRechit) == 2){
-			  //rechit is in HGCHEB
-			  //double eta = (oneRechit->position()).eta();
+		  if(hgcRegion(oneRechit) == 2 && hgcLayerNumber(oneRechit) > 51){
+			  //rechit is in HGCHEB, and resides in layer # 52, 53, or 54 (last 3 layers in HEB)
 			  double uncorrMips = (oneRechit->energy())/(0.001498);
 			  //double effMipsToInvGeV = (1.0)/( 1.0 + std::exp(-(1000000.0) - (1000000.0)*std::cosh(eta) ) );
 			  double corrMips =  absorberWeights[hgcLayerNumber(oneRechit)-1]*uncorrMips;
@@ -485,7 +486,7 @@ class singleHadEvsLayerStudy : public edm::EDAnalyzer {
 
 	  }//end calibHEBRechitEnergyLastThreeLayers(reco::PFRecHitRef object)
 
-	  */
+	  /**/
 
 
 	  double calibRechitPt(const reco::PFRecHitRef& oneRechit){
@@ -626,6 +627,20 @@ singleHadEvsLayerStudy::singleHadEvsLayerStudy(const edm::ParameterSet& iConfig)
    hists_["ClusterMult"]=fs->make<TH1D>("ClusterMult","Number of PFClusters per event for #pi+ #eta_{gen} = 2.2",101,0.,100.);
 
    //histos needed to study why constant energy resolution term is so large
+   hists_["tail_hebEnergyFrxn"]=fs->make<TH1D>("tail_hebEnergyFrxn","HEB energy fraction for events with #DeltaE/E > 0;HEB energy fraction;",100,0.,1.);
+   hists_["tail_hefEnergyFrxn"]=fs->make<TH1D>("tail_hefEnergyFrxn","HEF energy fraction for events with #DeltaE/E > 0;HEF energy fraction;",100,0.,1.);
+   hists_["tail_eeEnergyFrxn"]=fs->make<TH1D>("tail_eeEnergyFrxn","EE energy fraction for events with #DeltaE/E > 0;EE energy fraction;",100,0.,1.);
+   hists_["tail_clusterEta"]=fs->make<TH1D>("tail_clusterEta","cluster #eta for events with #DeltaE/E > 0; #eta;",100,2.0,2.4);
+   hists_["tail_clusterPhi"]=fs->make<TH1D>("tail_clusterPhi","cluster #phi for events with #DeltaE/E > 0; #phi;",150,-3.2,3.2);
+
+   //tail may be coming from events where HEB energy fraction > 0.95
+   hists_["highHEBFrxn_deltaEovrE"]=fs->make<TH1D>("highHEBFrxn_deltaEovrE","#DeltaE/E in evts where HEB energy fraction > 0.95; #DeltaE/E;",40,0.,0.4);
+   hists_["highHEBFrxn_hefEnFrxn"]=fs->make<TH1D>("highHEBFrxn_hefEnFrxn","HEF energy fraction in evts where HEB energy fraction > 0.95; HEF energy frxn;",100,0.,1.);
+   hists_["highHEBFrxn_eeEnFrxn"]=fs->make<TH1D>("highHEBFrxn_eeEnFrxn","EE energy fraction in evts where HEB energy fraction > 0.95; EE energy frxn;",100,0.,1.);
+
+
+
+
 
 
    /*
@@ -743,7 +758,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    double gEn =0;	//energy of a generator chgd pion
    float gEta = 0;
    float gPhi = 0;	//eta and phi of generator chgd pion
-   double gPt = 0;
+   //double gPt = 0;
    //int numGenParticles = 0;	//keeps track of the total number of gen lvl particles in the event
 
    for(std::vector<reco::GenParticle>::const_iterator genIt=genPart->begin(); genIt != genPart->end(); genIt++){
@@ -753,7 +768,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 		  gEta = genIt->eta();
 		  gPhi = genIt->phi();
 		  gEn = (genIt->pt())*(TMath::CosH(genIt->eta()));
-		  gPt = genIt->pt();
+		  //gPt = genIt->pt();
 	   }
 
    }//end loop over GenParticle
@@ -786,7 +801,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    
    //double totalTrackAndCaloEnergy = 0.;
    double totalCaloEnergy = 0.;
-   double totalCaloPt = 0.;
+   //double totalCaloPt = 0.;
    double minEnergy = 0.10;   //in GeV
    double maxClstEnergy = 0.;	//in GeV
    //double boostHEBEnergy = 0.;  //energy threshold for PFClusters in HEB
@@ -825,10 +840,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
 	   if(clstEE->energy() <= minEnergy) continue;
 	   counter += 1;
-	   double deltaEta = (clstEE->eta()) - gEta;
-	   double deltaPhi = (clstEE->phi()) - gPhi;
-	   double dR = TMath::Sqrt(deltaPhi*deltaPhi + deltaEta*deltaEta);
-	   if(dR > 0.3) continue;
+	   if(deltaR(clstEE->eta(), clstEE->phi(), gEta, gPhi) > 0.3) continue;
 	   if(clstEE->energy() > maxClstEnergy){
 		  maxClstEnergy = 0;
 		  maxClstEnergy += clstEE->energy();
@@ -837,9 +849,13 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
    }//end loop over all PFClusters in the event to find the highest energy PFCluster matched to the generator particle
 
    if(gEta > 2.1 && gEta < 2.3) fill("ClusterMult",counter);
- 
+
+   double selectedClusterEta=0;
+   double selectedClusterPhi=0;
    for(std::vector<reco::PFCluster>::const_iterator clstEE=PFClustersEE->begin(); clstEE != PFClustersEE->end(); clstEE++){
 	   if(clstEE->energy() != maxClstEnergy) continue;
+	   selectedClusterEta = clstEE->eta();
+	   selectedClusterPhi = clstEE->phi();
 	   const std::vector<reco::PFRecHitFraction> pfRechitFractions = clstEE->recHitFractions();
 	   for(unsigned int i=0; i<pfRechitFractions.size() ;i++){
 		   //I can freely call calibEERechitEnergy(ref), calibHEFRechitEnergy(ref), calibHEBRechitEnergy(ref) because these functions will return
@@ -847,12 +863,16 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 		   firstEME += (pfRechitFractions[i].fraction() )*calibEERechitEnergy(pfRechitFractions[i].recHitRef() );
 		   firstHEFE += (pfRechitFractions[i].fraction() )*calibHEFRechitEnergy(pfRechitFractions[i].recHitRef() );
 		   firstHEBE += (pfRechitFractions[i].fraction() )*calibHEBRechitEnergy(pfRechitFractions[i].recHitRef() );
+		   //firstHEBE_lastThreeLayers += (pfRechitFractions[i].fraction() )*calibHEBRechitEnergyLastThreeLayers(pfRechitFractions[i].recHitRef() );
 
 	   }//end loop over pfRechitFractions
 
-	   //firstHEBE_lastThreeLayers;
    }//end loop over all PFClusters in the event
 
+   //stop analyzing the event if more than 3 MIPs of energy is measured in the last 3 layers of HEB
+   //this energy signature is indicative of an event where the charged pion starts showering late in HGC --> poor energy containment 
+   //if(firstHEBE_lastThreeLayers >= 3.0) return;
+   
    //applying these equations converts the MIP energy into GeV
    double rescaledEME = ( (0.2372)*(firstEME) - 0.2215 );
    double rescaledHEFE = ( (0.1847)*(firstHEFE) + 0.0818 );
@@ -870,9 +890,30 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
    totalCaloEnergy += secondEME + (1.258)*(secondHEFE + (1.101)*(secondHEBE) );
    
-   double hefEnFrxnThr = 0.8;	//amount of total HGC calo energy which must be reconstructed in HEF
-   double finalRescaledHEFE = (1.258)*(secondHEFE);
-   if( (finalRescaledHEFE/totalCaloEnergy) < hefEnFrxnThr ) return;
+   double deltaEovrE = ((totalCaloEnergy - gEn)/gEn);
+   if(gEn > 495 && gEn < 505 && deltaEovrE > 0){
+	   //what is going on in events where gen energy = 500 GeV, and E_reco > E_gen?
+	   double eeEnergyFrxn = (secondEME/totalCaloEnergy);
+	   double hefEnergyFrxn = ((1.258)*secondHEFE/totalCaloEnergy);
+	   double hebEnergyFrxn = ((1.258)*(1.101)*secondHEBE/totalCaloEnergy);
+	   fill("tail_hebEnergyFrxn", hebEnergyFrxn);
+	   fill("tail_hefEnergyFrxn", hefEnergyFrxn);
+	   fill("tail_eeEnergyFrxn", eeEnergyFrxn);
+	   fill("tail_clusterEta", selectedClusterEta);
+	   fill("tail_clusterPhi", selectedClusterPhi);
+	   
+	   if(hebEnergyFrxn > 0.95){
+		   //there is a spike of about 100 events with heb energy fraction = 1.0
+		   //what is deltaE/E, hef energy fraction, and ee energy fraction in these events?
+		   fill("highHEBFrxn_deltaEovrE", deltaEovrE);
+		   fill("highHEBFrxn_hefEnFrxn", hefEnergyFrxn);
+		   fill("highHEBFrxn_eeEnFrxn", eeEnergyFrxn);
+	   }
+
+   }
+   //double hefEnFrxnThr = 0.8;	//amount of total HGC calo energy which must be reconstructed in HEF
+   //double finalRescaledHEFE = (1.258)*(secondHEFE);
+   //if( (finalRescaledHEFE/totalCaloEnergy) < hefEnFrxnThr ) return;
    absorberWeights.clear();	//clears all contents out of absorberWeights vector, resets # of elements to zero
 
    /*
@@ -1190,6 +1231,7 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 
 
 
+   /*
    double zeroExact = 0.0;
 
    //this code prints out the numerical values needed to make plots of energy and pT resolution and linearity 
@@ -1199,7 +1241,6 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 	   if(gEn >= binVals[i] && gEn <= binVals[m]){
  
 		   // USE THIS for fixed energy and eta chgd pion gun samples
-		   /*
 		   if(gEta < 1.52){
 			   std::cout<<"KEEP NO ETABIN_"<< 0 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalCaloEnergy - gEn )/gEn) <<std::endl;
 			   std::cout<<"KEEP PT ETABIN_"<< 0 << " EGENBIN_" << i << " " << gPt <<" "<< ( (totalCaloPt - gPt )/gPt) <<std::endl;
@@ -1207,10 +1248,8 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 			   //std::cout<<"KEEP YES ETABIN_"<< 0 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalTrackAndCaloEnergy  - gEn )/gEn) <<std::endl;
 
 		   }
-		   */
 
 		  
-		   /**/
 		   if(gEta > 1.52 && gEta < 1.63){
 			   std::cout<<"KEEP NO ETABIN_"<< 1 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalCaloEnergy - gEn )/gEn) <<std::endl;
 			   std::cout<<"KEEP PT ETABIN_"<< 1 << " EGENBIN_" << i << " " << gPt <<" "<< ( (totalCaloPt - gPt )/gPt) <<std::endl;
@@ -1265,13 +1304,13 @@ singleHadEvsLayerStudy::analyze(const edm::Event& iEvent, const edm::EventSetup&
 			   //std::cout<<"KEEP YES ETABIN_"<< 5 << " EGENBIN_" << i << " " << gEn <<" "<< ( (totalTrackAndCaloEnergy - gEn )/gEn) <<std::endl;
 
 		   }
-		   /**/
 
 		   break;	//leave for loop over unsigned int i
 	   }//end if(gEn)
 
    }//end for(i)
 
+*/
 
 
 

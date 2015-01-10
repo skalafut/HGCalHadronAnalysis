@@ -93,16 +93,26 @@ inputFiles.extend( [
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta1.9_NoPU_7_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta1.9_NoPU_8_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta1.9_NoPU_9_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_1_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_2_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_3_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_4_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_5_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_6_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_7_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_8_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_9_1500evts.root',
-    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.5_NoPU_1_1500evts.root',
+    
+	
+	
+	
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_1_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_2_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_3_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_4_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_5_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_6_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_7_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_8_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.2_NoPU_9_1500evts.root',
+    
+	
+	
+	
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.5_NoPU_1_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.5_NoPU_2_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.5_NoPU_3_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E10_Eta2.5_NoPU_4_1500evts.root',
@@ -149,16 +159,26 @@ inputFiles.extend( [
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta1.9_NoPU_7_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta1.9_NoPU_8_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta1.9_NoPU_9_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_1_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_2_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_3_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_4_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_5_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_6_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_7_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_8_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_9_1500evts.root',
-    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.5_NoPU_1_1500evts.root',
+    
+	
+	
+	
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_1_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_2_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_3_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_4_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_5_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_6_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_7_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_8_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.2_NoPU_9_1500evts.root',
+    
+	
+	
+	
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.5_NoPU_1_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.5_NoPU_2_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.5_NoPU_3_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E150_Eta2.5_NoPU_4_1500evts.root',
@@ -205,16 +225,26 @@ inputFiles.extend( [
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta1.9_NoPU_7_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta1.9_NoPU_8_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta1.9_NoPU_9_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_1_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_2_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_3_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_4_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_5_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_6_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_7_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_8_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_9_1500evts.root',
-    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.5_NoPU_1_1500evts.root',
+    
+	
+	
+	
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_1_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_2_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_3_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_4_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_5_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_6_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_7_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_8_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.2_NoPU_9_1500evts.root',
+    
+	
+	
+	
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.5_NoPU_1_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.5_NoPU_2_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.5_NoPU_3_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E200_Eta2.5_NoPU_4_1500evts.root',
@@ -261,16 +291,26 @@ inputFiles.extend( [
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta1.9_NoPU_7_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta1.9_NoPU_8_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta1.9_NoPU_9_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_1_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_2_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_3_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_4_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_5_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_6_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_7_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_8_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_9_1500evts.root',
-    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.5_NoPU_1_1500evts.root',
+    
+	
+	
+	
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_1_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_2_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_3_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_4_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_5_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_6_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_7_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_8_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.2_NoPU_9_1500evts.root',
+    
+	
+	
+	
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.5_NoPU_1_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.5_NoPU_2_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.5_NoPU_3_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E300_Eta2.5_NoPU_4_1500evts.root',
@@ -317,16 +357,26 @@ inputFiles.extend( [
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta1.9_NoPU_7_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta1.9_NoPU_8_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta1.9_NoPU_9_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_1_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_2_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_3_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_4_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_5_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_6_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_7_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_8_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_9_1500evts.root',
-    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.5_NoPU_1_1500evts.root',
+    
+	
+	
+	
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_1_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_2_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_3_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_4_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_5_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_6_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_7_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_8_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.2_NoPU_9_1500evts.root',
+    
+	
+	
+	
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.5_NoPU_1_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.5_NoPU_2_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.5_NoPU_3_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E30_Eta2.5_NoPU_4_1500evts.root',
@@ -373,7 +423,12 @@ inputFiles.extend( [
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta1.9_NoPU_7_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta1.9_NoPU_8_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta1.9_NoPU_9_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.2_NoPU_1_1500evts.root',
+    
+	
+	
+	
+	
+	'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.2_NoPU_1_1500evts.root',
     'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.2_NoPU_2_1500evts.root',
     'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.2_NoPU_3_1500evts.root',
     'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.2_NoPU_4_1500evts.root',
@@ -382,7 +437,12 @@ inputFiles.extend( [
     'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.2_NoPU_7_1500evts.root',
     'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.2_NoPU_8_1500evts.root',
     'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.2_NoPU_9_1500evts.root',
-    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.5_NoPU_1_1500evts.root',
+    
+	
+	
+	
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.5_NoPU_1_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.5_NoPU_2_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.5_NoPU_3_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E500_Eta2.5_NoPU_4_1500evts.root',
@@ -429,16 +489,26 @@ inputFiles.extend( [
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta1.9_NoPU_7_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta1.9_NoPU_8_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta1.9_NoPU_9_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_1_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_2_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_3_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_4_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_5_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_6_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_7_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_8_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_9_1500evts.root',
-    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.5_NoPU_1_1500evts.root',
+    
+
+
+
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_1_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_2_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_3_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_4_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_5_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_6_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_7_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_8_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.2_NoPU_9_1500evts.root',
+    
+	
+
+
+
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.5_NoPU_1_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.5_NoPU_2_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.5_NoPU_3_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E50_Eta2.5_NoPU_4_1500evts.root',
@@ -485,16 +555,24 @@ inputFiles.extend( [
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta1.9_NoPU_7_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta1.9_NoPU_8_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta1.9_NoPU_9_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_1_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_2_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_3_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_4_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_5_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_6_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_7_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_8_1500evts.root',
-    'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_9_1500evts.root',
-    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.5_NoPU_1_1500evts.root',
+    
+
+
+
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_1_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_2_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_3_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_4_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_5_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_6_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_7_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_8_1500evts.root',
+    #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.2_NoPU_9_1500evts.root',
+
+
+
+	
+	#'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.5_NoPU_1_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.5_NoPU_2_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.5_NoPU_3_1500evts.root',
     #'file:/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/step3_chgdPionGun_E80_Eta2.5_NoPU_4_1500evts.root',
@@ -527,7 +605,8 @@ process.demo = cms.EDAnalyzer('singleHadEvsLayerStudy'
 process.TFileService = cms.Service("TFileService",
 	#fileName = cms.string('/eos/uscms/store/user/skalafut/HGCal/analyzed_step3_chargedPiPt500_NoPU_withPFRecHits_1000evts_with_DR4_cut.root')
 	#fileName = cms.string('checkingLindseysCodeWasIncluded.root')
-	fileName = cms.string('/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/analyzed/analyzed_step3_chgdPionAllEnergies_Eta2p2.root')
+	#fileName = cms.string('/eos/uscms/store/user/lpchgcal/HGCAL_Samples/chgdPionFixedEAndEta_SLHC21_chgdHadron_clustering_from_Dec_10_with_SimHits_NoPU/analyzed/analyzed_step3_chgdPionAllEnergies_Eta2p2.root')
+	fileName = cms.string('trial.root')
 	
 )
 

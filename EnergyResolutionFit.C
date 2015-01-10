@@ -419,7 +419,7 @@ void EnergyResolutionFit()
 
 		  /**/
 		  if(i== (numEnergyBins-1) ){
-			  std::string completeNoTrackESpreadOutputFileName = outputPlotDir + partialNoTrackESpreadOutputPlotName + "_chgdPion" + "_EtaBin" + etaBins[j] + "_lrg_HEF_energy_frxn_evts.png";
+			  std::string completeNoTrackESpreadOutputFileName = outputPlotDir + partialNoTrackESpreadOutputPlotName + "_chgdPion" + "_EtaBin" + etaBins[j] + "_few_MIPs_last_three_layers_HEB_evts.png";
 			  cEnergySpreads->SaveAs(completeNoTrackESpreadOutputFileName.c_str(), "recreate");
 
 		  }
@@ -598,13 +598,13 @@ void EnergyResolutionFit()
   chgdPionEResoNoTrackThirdEtaBin->SetMarkerStyle(20);
   chgdPionEResoNoTrackThirdEtaBin->SetMarkerColor(4);
   chgdPionEResoNoTrackThirdEtaBin->SetMarkerSize(1.5);
-  chgdPionEResoNoTrackThirdEtaBin->GetYaxis()->SetTitleOffset(1.4);
+  chgdPionEResoNoTrackThirdEtaBin->GetYaxis()->SetTitleOffset(1.3);
   chgdPionEResoNoTrackThirdEtaBin->GetXaxis()->SetTitleOffset(1.4);
   chgdPionEResoNoTrackThirdEtaBin->Fit("fitToEtaBinThreeResolution","MR");
   
   chgdPionEResoNoTrackThirdEtaBin->Draw("AP");
 
-  std::string outThirdGraphName = outputPlotDir + "chgdPionEResoNoTrackThirdEtaBin_lrg_HEF_energy_frxn_evts.png"; 
+  std::string outThirdGraphName = outputPlotDir + "chgdPionEResoNoTrackThirdEtaBin_few_MIPs_last_three_layers_HEB_evts.png"; 
   cThird->SaveAs(outThirdGraphName.c_str(),"recreate");
 
   TCanvas * cEleven = new TCanvas("cEleven","cEleven",1000,1000);
@@ -627,7 +627,7 @@ void EnergyResolutionFit()
   chgdPionELinearityNoTrackThirdEtaBin->Fit("fitToEtaBinThreeLinearity","MR");
   chgdPionELinearityNoTrackThirdEtaBin->Draw("AP");
 
-  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackThirdEtaBin_lrg_HEF_energy_frxn_evts.png"; 
+  std::string outSecondGraphName = outputPlotDir + "chgdPionELinearityNoTrackThirdEtaBin_few_MIPs_last_three_layers_HEB_evts.png"; 
   cEleven->SaveAs(outSecondGraphName.c_str(),"recreate");
 
 

@@ -11,6 +11,7 @@
 <use name="DataFormats/ForwardDetId"/>
 <use name="DataFormats/CaloRecHit"/>
 <use name="DataFormats/HGCRecHit"/>
+<use name="DataFormats/Math"/>
 <use name="Geometry/FCalGeometry"/>
 <use name="Geometry/CaloGeometry"/>
 <use name="Geometry/Records"/>
